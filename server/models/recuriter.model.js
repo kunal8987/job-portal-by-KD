@@ -1,6 +1,7 @@
+
 import mongoose from "mongoose";
 
-const authSchema = new mongoose.Schema(
+const recruiterSchema = new mongoose.Schema(
     {
         firstName: {
             type: String,
@@ -18,25 +19,32 @@ const authSchema = new mongoose.Schema(
             unique: true,
             lowercase: true,
         },
-        password: {
+        phone: {
             type: String,
-            required: [true, "Password Is Required"],
+            required: [true, "Phone Number Is Required"],
+            trim: true,
         },
-        username: {
+        company: {
             type: String,
-            required: [true, "Username Is Required"],
-            unique: true,
-            lowercase: true,
+            required: [true, "Company Name Is Required"],
+            trim: true,
         },
-        role: {
+        authId: {
             type: String,
-            enum: ["candidate",'recruiter', "admin"],
-            default: "candidate",
+            required: true,
         },
+        jobsPosted: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "Job",
+            },
+        ],
     },
     { timestamps: true }
 );
 
-const Auth = mongoose.model("Auth", authSchema);
+const Recruiter = mongoose.model("Recruiter", recruiterSchema);
 
-export default Auth;
+export default Recruiter;
+
+
