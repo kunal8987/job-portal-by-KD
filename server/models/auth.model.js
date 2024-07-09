@@ -30,7 +30,7 @@ const authSchema = new mongoose.Schema(
         },
         role: {
             type: String,
-            enum: ["candidate",'recruiter', "admin"],
+            enum: ["candidate", "recruiter", "admin"],
             default: "candidate",
         },
     },

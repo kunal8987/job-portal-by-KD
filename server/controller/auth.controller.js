@@ -7,20 +7,38 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-export const register = async (req, res) => {
-    const { firstName, lastName, email, password, username } = req.body;
+// REGISTER FUNCTION
 
+export const register = async (req, res) => {
     try {
+        const { firstName, lastName, email, password, username, role } =
+            req.body;
+
+        if (
+            !firstName ||
+            !lastName ||
+            !email ||
+            !password ||
+            !username ||
+            !role
+        ) {
+            return sendErrorResponse(res, 400, "All fields are required");
+        }
+
         // Check if user already exists
         const existingUser = await Auth.findOne({
             $or: [{ email }, { username }],
         });
         if (existingUser) {
-            return res.status(400).json({ message: "User already exists" });
+            return sendErrorResponse(
+                res,
+                400,
+                "User with this email or username already exists"
+            );
         }
 
         // Hash the password
-        const salt = process.env.JOB_SALT_ROUND;
+        const salt = await bcrypt.genSalt(parseInt(process.env.JOB_SALT_ROUND));
         const hashedPassword = await bcrypt.hash(password, salt);
 
         // Create new user
@@ -30,41 +48,48 @@ export const register = async (req, res) => {
             email,
             password: hashedPassword,
             username,
+            role,
         });
 
         // Save user to database
         await newUser.save();
-        sendSuccessResponse(
-            res.status(201).json({ message: "User Registered Successfully" })
-        );
+
+        newUser.password = undefined;
+        return sendSuccessResponse(res, "Registration Successful");
     } catch (error) {
-        sendErrorResponse(
-            res.status(500).json({
-                message: "Server Error From Register Auth Controller",
-                error: error.message,
-            })
+        return sendErrorResponse(
+            res,
+            500,
+            "Server Error From Register Auth Controller",
+            error.message
         );
     }
 };
 
-export const login = async (req, res) => {
-    const { email, password } = req.body;
+// LOGIN FUNCTION
 
+export const login = async (req, res) => {
     try {
+        const { email, password } = req.body;
+
+        if (!email || !password) {
+            return sendErrorResponse(
+                res,
+                400,
+                "email and password are required"
+            );
+        }
+
         // Check if user exists
         const user = await Auth.findOne({ email });
         if (!user) {
-            sendErrorResponse(
-                res.status(400).json({ message: "Invalid Email Or Password" })
-            );
+            return sendErrorResponse(res, 400, "Invalid Email Or Password");
         }
 
         // Compare password
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
-            sendErrorResponse(
-                res.status(400).json({ message: "Invalid Password" })
-            );
+            return sendErrorResponse(res, 400, "Invalid Password");
         }
 
         // Generate JWT token
@@ -74,13 +99,11 @@ export const login = async (req, res) => {
             { expiresIn: "1d" }
         );
         user.password = undefined;
-        sendSuccessResponse(res, "Login Successful", { token, user });
+        return sendSuccessResponse(res, "Login Successful", { token, user });
     } catch (error) {
-        sendErrorResponse(
-            res.status(500).json({
-                message: "Server Error From Login Auth Controller",
-                error: error.message,
-            })
-        );
+        return sendErrorResponse(res, 500, {
+            message: "Server Error From Login Auth Controller",
+            error: error.message,
+        });
     }
 };

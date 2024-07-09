@@ -12,7 +12,7 @@ const experienceSchema = new mongoose.Schema({
         trim: true,
     },
     startDate: {
-        type: Date,
+        type: String,
         required: true,
     },
     endDate: {
@@ -37,11 +37,11 @@ const educationSchema = new mongoose.Schema({
         trim: true,
     },
     startDate: {
-        type: Date,
+        type: String,
         required: true,
     },
     endDate: {
-        type: Date,
+        type: String,
     },
 });
 
@@ -63,13 +63,23 @@ const candidateSchema = new mongoose.Schema(
             required: true,
             trim: true,
         },
+        state: {
+            type: String,
+            required: true,
+        },
+        city: {
+            type: String,
+            required: true,
+        },
+        about: {
+            type: String,
+            required: true,
+        },
         experience: {
             type: [experienceSchema],
-            required: true,
         },
         education: {
             type: [educationSchema],
-            required: true,
         },
         skills: {
             type: [String],
@@ -77,11 +87,11 @@ const candidateSchema = new mongoose.Schema(
         },
         resume: {
             type: String,
-            required: true,
+            // required: true,
         },
         authId: {
             type: String,
-            required: true,
+            // required: true,
         },
         appliedJobs: [
             {
