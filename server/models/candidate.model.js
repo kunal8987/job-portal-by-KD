@@ -16,7 +16,7 @@ const experienceSchema = new mongoose.Schema({
         required: true,
     },
     endDate: {
-        type: Date,
+        type: String,
     },
 });
 

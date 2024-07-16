@@ -31,7 +31,7 @@ const recruiterSchema = new mongoose.Schema(
         },
         authId: {
             type: String,
-            required: true,
+            // required: true,
         },
         jobsPosted: [
             {

@@ -36,11 +36,11 @@ const jobSchema = new mongoose.Schema(
         },
         authId: {
             type: String,
-            required: true,
+            // required: true,
         },
         authEmail: {
             type: String,
-            required: true,
+            // required: true,
         },
         postedBy: {
             type: mongoose.Schema.Types.ObjectId,
