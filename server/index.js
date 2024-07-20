@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import connectDB from "./utils/db.js";
 import authRouter from "./routes/auth.routes.js";
 import candidateRouter from "./routes/candidate.routes.js";
+import { recuriterRouter } from "./routes/recuriter.routes.js";
 
 dotenv.config();
 
@@ -13,8 +14,9 @@ app.use(express.json());
 
 app.use(cors());
 
-app.use("/api/v1/job/auth", authRouter);
-app.use("/api/v1/job/candidate", candidateRouter);
+app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/candidate", candidateRouter);
+app.use("/api/v1/recuriter", recuriterRouter);
 
 let port = process.env.JOB_PORT || 4500;
 app.listen(port, async (req, res) => {

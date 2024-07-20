@@ -11,12 +11,11 @@ dotenv.config();
 
 export const register = async (req, res) => {
     try {
-        const { firstName, lastName, email, password, username, role } =
+        const { email, password, username, role } =
             req.body;
 
         if (
-            !firstName ||
-            !lastName ||
+          
             !email ||
             !password ||
             !username ||
@@ -43,8 +42,6 @@ export const register = async (req, res) => {
 
         // Create new user
         const newUser = new Auth({
-            firstName,
-            lastName,
             email,
             password: hashedPassword,
             username,

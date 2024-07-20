@@ -1,11 +1,18 @@
 
 import './App.css';
+import Login from './Auth/Login/Login';
+
+import Register from './Auth/Register/Register';
+import CreateRecruter from './Recurter/Create/CreateRecruter';
 
 function App() {
   return (
-    <h1 className=" container font-lora text-3xl font-bold underline">
-      Hello world!
-    </h1>
+   <>
+   {/* <Register/> */}
+   {/* <Login/> */}
+   {/* <CreateRecruter/> */}
+  
+   </>
   );
 }
 
