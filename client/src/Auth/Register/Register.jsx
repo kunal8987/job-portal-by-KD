@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 // Function to handle the registration form
 function Register() {
@@ -99,12 +100,12 @@ function Register() {
           </div>
           <div className="flex items-center justify-between gap-3 flex-col md:flex-row">
             <div className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl">
-              <a
-                href="/login"
+              <Link
+                to="/auth/login"
                 className="font-medium font-merry text-blue-600 hover:text-blue-500"
               >
                 Already have an account?
-              </a>
+              </Link>
             </div>
             <button
               type="submit"

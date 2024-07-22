@@ -1,27 +1,15 @@
-
-import './App.css';
-import Login from './Auth/Login/Login';
-
-import Register from './Auth/Register/Register';
-import CreateCandidate from './Candidate/Create/CreateCandidate';
-import CreateEducation from './Candidate/Education/CreateEducation';
-import CreateExperience from './Candidate/Experience/CreateExperience';
-import { Navbar } from './Component/Navbar';
-
-import CreateRecruter from './Recurter/Create/CreateRecruter';
+import "./App.css";
+import AllRoutes from "./Component/AllRoutes";
+import Footer from "./Component/Footer";
+import { Navbar } from "./Component/Navbar";
 
 function App() {
   return (
-   <>
-   {/* <Register/> */}
-   {/* <Login/> */}
-   {/* <CreateRecruter/> */}
-   {/* <CreateCandidate/> */}
-   {/* <CreateEducation/> */}
-   {/* <CreateExperience/> */}
-   <Navbar/>
-  
-   </>
+    <>
+      <Navbar />
+      <AllRoutes />
+      <Footer/>
+    </>
   );
 }
 
