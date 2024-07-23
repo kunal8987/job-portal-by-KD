@@ -1,4 +1,4 @@
-import Recruiter from "./../models/recuriter.model";
+import Recruiter from "./../models/recuriter.model.js";
 
 export const createRecruiter = async (req, res) => {
     try {

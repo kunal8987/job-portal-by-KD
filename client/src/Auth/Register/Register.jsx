@@ -1,12 +1,51 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-
+import { addUser } from "../../Redux/Auth/Action/AuthAction";
+import {useDispatch} from 'react-redux';
+let initialState = {
+  username: "",
+  email: "",
+  password: "",
+  role: "",
+};
 // Function to handle the registration form
 function Register() {
   // State to manage the visibility of the password
   const [showPassword, setShowPassword] = useState(false);
   // State to manage the role selection
-  const [role, setRole] = useState("");
+  const [formState, setFormState] = useState(initialState);
+
+  const dispatch = useDispatch()
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormState({ ...formState, [name]: value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (
+      !formState.username ||
+      !formState.email ||
+      !formState.password ||
+      !formState.role
+    ) {
+      alert("Please fill in all the fields.");
+      return;
+    }
+    if (
+      !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(formState.email)
+    ) {
+      alert("Invalid email format.");
+      return;
+    }
+    if (formState.password.length < 8) {
+      alert("Password must be at least 8 characters.");
+      return;
+    }
+     dispatch(addUser(formState))
+  };
 
   return (
     <div className="container flex justify-center items-center h-screen bg-gray-100 xl:text-lg">
@@ -17,7 +56,7 @@ function Register() {
         <p className="font-merry text-lg text-gray-800 mb-4">
           Create A Free Account
         </p>
-        <form className="space-y-5">
+        <form className="space-y-5" onSubmit={handleSubmit}>
           <div>
             <label
               htmlFor="username"
@@ -28,7 +67,9 @@ function Register() {
             <input
               type="text"
               name="username"
+              value={formState.username}
               id="username"
+              onChange={handleChange}
               className="mt-1 p-2 border block w-full rounded-md border-gray-300 shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm lg:text-base xl:text-lg"
               placeholder="Enter your username"
               required
@@ -44,7 +85,9 @@ function Register() {
             <input
               type="email"
               name="email"
+              value={formState.email}
               id="email"
+              onChange={handleChange}
               className="mt-1 p-2 border block w-full rounded-md border-gray-300 shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm lg:text-base xl:text-lg"
               placeholder="Enter your email"
               required
@@ -61,7 +104,9 @@ function Register() {
               <input
                 type={showPassword ? "text" : "password"}
                 name="password"
+                value={formState.password}
                 id="password"
+                onChange={handleChange}
                 className="mt-1 p-2 border block w-full rounded-md border-gray-300 shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm lg:text-base xl:text-lg"
                 placeholder="Enter your password"
                 required
@@ -89,8 +134,8 @@ function Register() {
             <select
               id="role"
               name="role"
-              value={role}
-              onChange={(e) => setRole(e.target.value)}
+              value={formState.role}
+              onChange={handleChange}
               className="mt-1 p-2 border block w-full rounded-md border-gray-300 shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm lg:text-base xl:text-lg"
             >
               <option value="">Select a role</option>
