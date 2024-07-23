@@ -11,16 +11,9 @@ dotenv.config();
 
 export const register = async (req, res) => {
     try {
-        const { email, password, username, role } =
-            req.body;
+        const { email, password, username, role } = req.body;
 
-        if (
-          
-            !email ||
-            !password ||
-            !username ||
-            !role
-        ) {
+        if (!email || !password || !username || !role) {
             return sendErrorResponse(res, 400, "All fields are required");
         }
 
@@ -74,6 +67,14 @@ export const login = async (req, res) => {
                 res,
                 400,
                 "email and password are required"
+            );
+        }
+
+        if (password.length < 8) {
+            return sendErrorResponse(
+                res,
+                400,
+                "Password must be at least 8 characters."
             );
         }
 

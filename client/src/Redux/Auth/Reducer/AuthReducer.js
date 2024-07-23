@@ -3,6 +3,7 @@ import { REQUEST_LOADING, REQUEST_PENDING, REQUEST_SUCCESS } from "../Action/Aut
 let initialState = {
   loading: false,
   error: null,
+  user:{}
 };
 
 export const authReducer = (state = initialState, { type, payload }) => {
@@ -17,6 +18,7 @@ export const authReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         loading: false,
+        user:payload
       };
 
     case REQUEST_PENDING:

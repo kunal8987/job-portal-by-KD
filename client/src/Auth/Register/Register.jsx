@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { addUser } from "../../Redux/Auth/Action/AuthAction";
-import {useDispatch} from 'react-redux';
+import { useDispatch, useSelector } from "react-redux";
+import { Toast } from "../../Component/Alert";
 let initialState = {
   username: "",
   email: "",
@@ -15,7 +16,12 @@ function Register() {
   // State to manage the role selection
   const [formState, setFormState] = useState(initialState);
 
-  const dispatch = useDispatch()
+  const {user} = useSelector((store) => {
+    return store.authReducer;
+  });
+
+  console.log(user);
+  const dispatch = useDispatch();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -31,20 +37,29 @@ function Register() {
       !formState.password ||
       !formState.role
     ) {
-      alert("Please fill in all the fields.");
+      Toast.fire({
+        icon: "warning",
+        title: "Please fill in all the fields.",
+      });
       return;
     }
     if (
       !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(formState.email)
     ) {
-      alert("Invalid email format.");
+      Toast.fire({
+        icon: "warning",
+        title: "Invalid email format.",
+      });
       return;
     }
     if (formState.password.length < 8) {
-      alert("Password must be at least 8 characters.");
+      Toast.fire({
+        icon: "warning",
+        title: "Password must be at least 8 characters.",
+      });
       return;
     }
-     dispatch(addUser(formState))
+    dispatch(addUser(formState));
   };
 
   return (
