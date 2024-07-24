@@ -82,7 +82,7 @@ const Login = () => {
         {/* Card for the login form */}
         <div className="max-w-md p-8 bg-white rounded-lg shadow-lg">
           {/* Title of the login form */}
-          <h2 className="font-lora text-xl md:text-3xl font-bold text-gray-800 mb-3">
+          <h2 className="font-lora text-xl md:text-3xl font-bold text-red-700 mb-3">
             Login to Access Services
           </h2>
           {/* Form for the login */}
@@ -135,7 +135,7 @@ const Login = () => {
               </Link>
               <button
                 type="submit"
-                className="inline-flex font-lora justify-center rounded-lg border border-transparent bg-blue-500 py-2 px-4 sm:py-3 sm:px-6 md:py-3 md:px-6 lg:py-3 lg:px-6 xl:py-3 xl:px-6 text-lg font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                className="inline-flex font-lora justify-center rounded-lg border border-transparent bg-red-700 py-2 px-4 sm:py-3 sm:px-6 md:py-3 md:px-6 lg:py-3 lg:px-6 xl:py-3 xl:px-6 text-lg font-medium text-white shadow-sm hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
               >
                 Login
               </button>

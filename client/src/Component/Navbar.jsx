@@ -9,12 +9,20 @@ const menuItems = [
     href: "/",
   },
   {
-    name: "About",
-    href: "#",
+    name: "Candidate",
+    href: "/candidate/create",
   },
   {
-    name: "Contact",
-    href: "#",
+    name: "Education",
+    href: "/candidate/education",
+  },
+  {
+    name: "Experience",
+    href: "/candidate/experience",
+  },
+  {
+    name: "Login",
+    href: "/auth/login",
   },
 ];
 
@@ -29,7 +37,7 @@ export function Navbar() {
     <div className=" container py-3 w-full bg-white top-0 sticky z-30">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-2 sm:px-6 lg:px-8">
         <div className="inline-flex items-center space-x-2">
-          <span className="font-bold sm:text-xl">Job-Portal</span>
+          <span className="font-bold font-lora sm:text-xl text-red-700">Job-Portal</span>
         </div>
         <div className="hidden lg:block">
           <ul className="inline-flex space-x-8">
@@ -48,7 +56,7 @@ export function Navbar() {
         <div className="hidden lg:block">
           <button
             type="button"
-            className="rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+            className="rounded-md bg-red-700 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
           >
             Button text
           </button>

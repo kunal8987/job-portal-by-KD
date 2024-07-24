@@ -1,7 +1,16 @@
 import React from "react";
+import Banner from "./Banner";
+import Middle from "./Middle";
+import Customer from "./Customer";
 
 const Home = () => {
-  return <div className=" mt-10">Home</div>;
+  return (
+    <>
+      <Banner />
+      <Middle />
+      <Customer />
+    </>
+  );
 };
 
 export default Home;
