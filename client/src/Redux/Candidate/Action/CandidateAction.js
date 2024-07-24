@@ -24,7 +24,7 @@ export const addCandidate = (payload) => (dispatch) => {
       // Log the response data
       // console.log(res.data);
       // Dispatch action to indicate request was successful
-      dispatch({ type: REQUEST_SUCCESS, payload: res.data.message });
+      dispatch({ type: REQUEST_SUCCESS, payload: res.data.data });
     })
     .catch((err) => {
       // console.log(err.response.data.message);

@@ -1,11 +1,48 @@
 import React, { useState } from "react";
+import { Toast } from "../../Component/Alert";
+import { useDispatch, useSelector } from "react-redux";
+// import { addEducation } from './../../Redux/Candidate/Action/CandidateAction';
 
+let initialState = {
+  institution: "",
+  degree: "",
+  fieldOfStudy: "",
+  startDate: "",
+  endDate: "",
+};
 function CreateEducation() {
-  const [institution, setInstitution] = useState("");
-  const [degree, setDegree] = useState("");
-  const [fieldOfStudy, setFieldOfStudy] = useState("");
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
+  const [formState, setFormState] = useState(initialState);
+
+  const dispatch = useDispatch()
+
+  const {error , message} = useSelector((store)=>{
+    return store.candidateReducer
+  })
+  const handleChange = (e) => {
+    setFormState({
+      ...formState,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (
+      !formState.institution ||
+      !formState.degree ||
+      !formState.fieldOfStudy ||
+      !formState.startDate 
+    ) {
+      Toast.fire({
+        icon: "warning",
+        title: "Please fill in all the fields.",
+      });
+      return;
+    }
+
+    // dispatch(addEducation(formState))
+    console.log(formState);
+  };
 
   return (
     <div className="container bg-gray-100 pb-5">
@@ -21,7 +58,7 @@ function CreateEducation() {
           />
         </div>
         <div className="w-full lg:w-1/2">
-          <form className="space-y-6">
+          <form className="space-y-6" onSubmit={handleSubmit}>
             <div className="flex flex-col">
               <div className="mb-4">
                 <label
@@ -34,8 +71,8 @@ function CreateEducation() {
                   type="text"
                   name="institution"
                   id="institution"
-                  value={institution}
-                  onChange={(e) => setInstitution(e.target.value)}
+                  value={formState.institution}
+                  onChange={handleChange}
                   required
                   className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 text-sm border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
                 />
@@ -51,8 +88,8 @@ function CreateEducation() {
                   type="text"
                   name="degree"
                   id="degree"
-                  value={degree}
-                  onChange={(e) => setDegree(e.target.value)}
+                  value={formState.degree}
+                  onChange={handleChange}
                   required
                   className="mt-1 block w-full border shadow-sm py-2 px-3 text-sm border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
                 />
@@ -68,8 +105,8 @@ function CreateEducation() {
                   type="text"
                   name="fieldOfStudy"
                   id="fieldOfStudy"
-                  value={fieldOfStudy}
-                  onChange={(e) => setFieldOfStudy(e.target.value)}
+                  value={formState.fieldOfStudy}
+                  onChange={handleChange}
                   required
                   className="mt-1 block w-full border shadow-sm py-2 px-3 text-sm border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
                 />
@@ -86,8 +123,8 @@ function CreateEducation() {
                   name="startDate"
                   placeholder="ex:- Jan-2022"
                   id="startDate"
-                  value={startDate}
-                  onChange={(e) => setStartDate(e.target.value)}
+                  value={formState.startDate}
+                  onChange={handleChange}
                   required
                   className="mt-1 block w-full border shadow-sm py-2 px-3 text-sm border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
                 />
@@ -104,8 +141,8 @@ function CreateEducation() {
                   name="endDate"
                   placeholder="ex:- Jan-2023"
                   id="endDate"
-                  value={endDate}
-                  onChange={(e) => setEndDate(e.target.value)}
+                  value={formState.endDate}
+                  onChange={handleChange}
                   className="mt-1 block w-full border shadow-sm py-2 px-3 text-sm border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
                 />
               </div>

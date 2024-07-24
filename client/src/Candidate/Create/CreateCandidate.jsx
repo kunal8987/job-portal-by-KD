@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { Toast } from "../../Component/Alert";
-// import { addCandidate } from "../../Redux/Candidate/Action/candidateAction";
+import { addCandidate } from "../../Redux/Candidate/Action/CandidateAction";
 import { useDispatch, useSelector } from "react-redux";
 
+// Initial state for the form
 const initialState = {
   name: "",
   email: "",
@@ -10,88 +11,128 @@ const initialState = {
   state: "",
   city: "",
   about: "",
-  // skills:[],
+  skills: [],
 };
-function CreateCandidate() {
-  const [formState, setFormState] = useState(initialState);
-  const [skills, setSkills] = useState([]);
 
+// CreateCandidate component
+function CreateCandidate() {
+  // State for the form
+  const [formState, setFormState] = useState(initialState);
+  // State for the skills
+  const [skills, setSkills] = useState(initialState.skills); // Corrected initialization
+
+  // Selecting error and message from the store
   const { error, message } = useSelector((store) => {
     return store.candidateReducer;
   });
+  // Dispatch function
   const dispatch = useDispatch();
 
+  // Function to handle adding a skill
   const handleAddSkill = (e) => {
     e.preventDefault();
     const skill = document.getElementById("skillInput").value;
     if (skill) {
-      setSkills([...skills, skill]);
+      const updatedSkills = [...skills, skill]; // Create a new array with the added skill
+      setSkills(updatedSkills); // Update the skills state
+      setFormState({ ...formState, skills: updatedSkills }); // Update formState with new skills
       document.getElementById("skillInput").value = "";
     }
   };
 
+  // Function to handle form field changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormState({ ...formState, [name]: value });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const { name, email, phone, state, city, about } = formState;
-    const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const isValidPhone = /^\d{10}$/;
+  // Function to handle form submission
+  const handleSubmit = async (e) => {
+    try {
+      e.preventDefault();
+      const { name, email, phone, state, city, about } = formState;
+      const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      const isValidPhone = /^\d{10}$/;
 
-    if (!name || !email || !phone || !state || !city || !about) {
-      Toast.fire({
-        icon: "warning",
-        title: "Please fill in all the fields.",
-      });
-      return;
+      // Validation checks
+      if (!name || !email || !phone || !state || !city || !about) {
+        Toast.fire({
+          icon: "warning",
+          title: "Please fill in all the fields.",
+        });
+        return;
+      }
+
+      if (!isValidEmail.test(email)) {
+        Toast.fire({
+          icon: "warning",
+          title: "Invalid email format.",
+        });
+        return;
+      }
+
+      if (!isValidPhone.test(phone)) {
+        Toast.fire({
+          icon: "warning",
+          title: "Invalid phone number format.",
+        });
+        return;
+      }
+
+      if (skills.length === 0) {
+        Toast.fire({
+          icon: "warning",
+          title: "Please add at least one skill.",
+        });
+        return;
+      }
+      // Dispatching the action to add a candidate
+      await dispatch(addCandidate(formState));
+      if (message) {
+        Toast.fire({
+          icon: "success",
+          title: message,
+        });
+        setFormState(initialState);
+        return;
+      }
+    } catch (error) {
+      if (error) {
+        Toast.fire({
+          icon: "error",
+          title: error,
+        });
+        setFormState(initialState);
+        return;
+      }
     }
 
-    if (!isValidEmail.test(email)) {
-      Toast.fire({
-        icon: "warning",
-        title: "Invalid email format.",
-      });
-      return;
-    }
-
-    if (!isValidPhone.test(phone)) {
-      Toast.fire({
-        icon: "warning",
-        title: "Invalid phone number format.",
-      });
-      return;
-    }
-
-    if (skills.length === 0) {
-      Toast.fire({
-        icon: "warning",
-        title: "Please add at least one skill.",
-      });
-      return;
-    }
-    // dispatch(addCandidate(formState, skills));
     console.log(formState, skills);
   };
 
   return (
     <div className="container bg-gray-100 pb-5">
+      {/* Heading for the candidate details section */}
       <h1 className="text-xl p-3 lg:p-8 text-center font-bold lg:text-2xl 2xl:text-3xl font-lora text-gray-800 mb-2">
         Candidate Details
       </h1>
+      {/* Flex container for the form and image */}
       <div className="flex gap-5 flex-col lg:flex-row">
+        {/* Image container */}
         <div className="w-full lg:w-1/2 ">
+          {/* Image for the candidate profile */}
           <img
             src="https://images.unsplash.com/photo-1471400974796-1c823d00a96f?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDZ8fHdlYnNpdGV8ZW58MHwxfDB8fHww"
             alt="Candidate Profile"
             className="w-full h-auto object-cover rounded-lg"
           />
         </div>
+        {/* Form container */}
         <div className="w-full lg:w-1/2 lg:ml-4">
+          {/* Form for adding candidate details */}
           <form className="space-y-6" onSubmit={handleSubmit}>
             <div className="flex flex-col">
+              {/* Form fields for candidate details */}
               <div className="mb-4">
                 <label
                   htmlFor="name"
@@ -226,6 +267,7 @@ function CreateCandidate() {
                 </div>
               </div>
             </div>
+            {/* Submit button for creating candidate profile */}
             <button
               type="submit"
               className="w-full flex font-lora justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-base sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
