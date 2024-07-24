@@ -16,11 +16,12 @@ export const addUser = (payload) => (dispatch) => {
       // Log the response data
       console.log(res.data);
       // Dispatch action to indicate request was successful
-      dispatch({ type: REQUEST_SUCCESS, payload: res });
+      dispatch({ type: REQUEST_SUCCESS, payload: res.data.message });
     })
     .catch((err) => {
+      // console.log(err.response.data.message);
       // Dispatch action to indicate request is pending
-      dispatch({ type: REQUEST_PENDING });
+      dispatch({ type: REQUEST_PENDING, payload: err.response.data.message });
     });
 };
 
@@ -33,14 +34,14 @@ export const loginUser = (payload) => (dispatch) => {
     .post(`${process.env.REACT_APP_BASE_API_URL}auth/login`, payload)
     .then((res) => {
       // Log the response data
-      console.log(res.data);
+      // console.log(res.data);
       sessionData.setItem("adminToken", JSON.stringify(res.data.data.token));
       sessionData.setItem("userRole", JSON.stringify(res.data.data.user.role));
       // Dispatch action to indicate request was successful
-      dispatch({ type: REQUEST_SUCCESS });
+      dispatch({ type: REQUEST_SUCCESS, payload: res.data.message });
     })
     .catch((err) => {
       // Dispatch action to indicate request is pending
-      dispatch({ type: REQUEST_PENDING });
+      dispatch({ type: REQUEST_PENDING, payload: err.response.data.message });
     });
 };

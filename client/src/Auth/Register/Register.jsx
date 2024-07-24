@@ -1,14 +1,22 @@
+// Importing necessary React hooks and components
 import React, { useState } from "react";
+// Importing Link from react-router-dom for navigation
 import { Link } from "react-router-dom";
+// Importing action creator for adding a user
 import { addUser } from "../../Redux/Auth/Action/AuthAction";
+// Importing useDispatch and useSelector from react-redux for state management
 import { useDispatch, useSelector } from "react-redux";
+// Importing Toast component for alert messages
 import { Toast } from "../../Component/Alert";
+
+// Defining the initial state for the form fields
 let initialState = {
   username: "",
   email: "",
   password: "",
   role: "",
 };
+
 // Function to handle the registration form
 function Register() {
   // State to manage the visibility of the password
@@ -16,21 +24,25 @@ function Register() {
   // State to manage the role selection
   const [formState, setFormState] = useState(initialState);
 
-  const {user} = useSelector((store) => {
+  // Extracting error and message from the store using useSelector
+  const { error, message } = useSelector((store) => {
     return store.authReducer;
   });
 
-  console.log(user);
+  // Using useDispatch to dispatch actions
   const dispatch = useDispatch();
 
+  // Function to handle changes in the form fields
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormState({ ...formState, [name]: value });
   };
 
+  // Function to handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    // Validating form fields
     if (
       !formState.username ||
       !formState.email ||
@@ -59,19 +71,41 @@ function Register() {
       });
       return;
     }
+    // Dispatching the addUser action with formState
     dispatch(addUser(formState));
+    // Handling success and error messages
+    if (message) {
+      Toast.fire({
+        icon: "success",
+        title: message,
+      });
+      setFormState(initialState);
+      return;
+    }
+    if (error) {
+      Toast.fire({
+        icon: "error",
+        title: error,
+      });
+      setFormState(initialState);
+      return;
+    }
   };
 
   return (
     <div className="container flex justify-center items-center h-screen bg-gray-100 xl:text-lg">
+      {/* Container for the registration form */}
       <div className="max-w-md p-8 bg-white rounded-lg shadow-lg">
+        {/* Header section */}
         <h2 className="font-lora text-xl md:text-3xl font-bold text-gray-800 mb-2">
           Welcome to the Job Portal
         </h2>
         <p className="font-merry text-lg text-gray-800 mb-4">
           Create A Free Account
         </p>
+        {/* Form for user registration */}
         <form className="space-y-5" onSubmit={handleSubmit}>
+          {/* Username input field */}
           <div>
             <label
               htmlFor="username"
@@ -90,6 +124,7 @@ function Register() {
               required
             />
           </div>
+          {/* Email input field */}
           <div>
             <label
               htmlFor="email"
@@ -108,6 +143,7 @@ function Register() {
               required
             />
           </div>
+          {/* Password input field with show/hide functionality */}
           <div>
             <label
               htmlFor="password"
@@ -126,6 +162,7 @@ function Register() {
                 placeholder="Enter your password"
                 required
               />
+              {/* Button to show/hide password */}
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
@@ -139,6 +176,7 @@ function Register() {
               </button>
             </div>
           </div>
+          {/* Role selection dropdown */}
           <div>
             <label
               htmlFor="role"
@@ -155,9 +193,10 @@ function Register() {
             >
               <option value="">Select a role</option>
               <option value="candidate">Candidate</option>
-              <option value="recuriter">Recruiter</option>
+              <option value="recruiter">Recruiter</option>
             </select>
           </div>
+          {/* Footer section with login link and register button */}
           <div className="flex items-center justify-between gap-3 flex-col md:flex-row">
             <div className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl">
               <Link

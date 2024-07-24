@@ -1,13 +1,25 @@
 import React, { useState } from "react";
+import { Toast } from "../../Component/Alert";
+// import { addCandidate } from "../../Redux/Candidate/Action/candidateAction";
+import { useDispatch, useSelector } from "react-redux";
 
+const initialState = {
+  name: "",
+  email: "",
+  phone: "",
+  state: "",
+  city: "",
+  about: "",
+  // skills:[],
+};
 function CreateCandidate() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [state, setState] = useState("");
-  const [city, setCity] = useState("");
-  const [about, setAbout] = useState("");
+  const [formState, setFormState] = useState(initialState);
   const [skills, setSkills] = useState([]);
+
+  const { error, message } = useSelector((store) => {
+    return store.candidateReducer;
+  });
+  const dispatch = useDispatch();
 
   const handleAddSkill = (e) => {
     e.preventDefault();
@@ -16,6 +28,52 @@ function CreateCandidate() {
       setSkills([...skills, skill]);
       document.getElementById("skillInput").value = "";
     }
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormState({ ...formState, [name]: value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const { name, email, phone, state, city, about } = formState;
+    const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const isValidPhone = /^\d{10}$/;
+
+    if (!name || !email || !phone || !state || !city || !about) {
+      Toast.fire({
+        icon: "warning",
+        title: "Please fill in all the fields.",
+      });
+      return;
+    }
+
+    if (!isValidEmail.test(email)) {
+      Toast.fire({
+        icon: "warning",
+        title: "Invalid email format.",
+      });
+      return;
+    }
+
+    if (!isValidPhone.test(phone)) {
+      Toast.fire({
+        icon: "warning",
+        title: "Invalid phone number format.",
+      });
+      return;
+    }
+
+    if (skills.length === 0) {
+      Toast.fire({
+        icon: "warning",
+        title: "Please add at least one skill.",
+      });
+      return;
+    }
+    // dispatch(addCandidate(formState, skills));
+    console.log(formState, skills);
   };
 
   return (
@@ -32,7 +90,7 @@ function CreateCandidate() {
           />
         </div>
         <div className="w-full lg:w-1/2 lg:ml-4">
-          <form className="space-y-6">
+          <form className="space-y-6" onSubmit={handleSubmit}>
             <div className="flex flex-col">
               <div className="mb-4">
                 <label
@@ -45,8 +103,8 @@ function CreateCandidate() {
                   type="text"
                   name="name"
                   id="name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
+                  value={formState.name}
+                  onChange={handleChange}
                   required
                   className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 text-sm border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
                 />
@@ -62,8 +120,8 @@ function CreateCandidate() {
                   type="email"
                   name="email"
                   id="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  value={formState.email}
+                  onChange={handleChange}
                   required
                   className="mt-1 block w-full border shadow-sm py-2 px-3 text-sm border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
                 />
@@ -79,8 +137,8 @@ function CreateCandidate() {
                   type="text"
                   name="phone"
                   id="phone"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
+                  value={formState.phone}
+                  onChange={handleChange}
                   required
                   className="mt-1 block w-full border shadow-sm py-2 px-3 text-sm border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
                 />
@@ -96,8 +154,8 @@ function CreateCandidate() {
                   type="text"
                   name="state"
                   id="state"
-                  value={state}
-                  onChange={(e) => setState(e.target.value)}
+                  value={formState.state}
+                  onChange={handleChange}
                   required
                   className="mt-1 block w-full border shadow-sm py-2 px-3 text-sm border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
                 />
@@ -113,8 +171,8 @@ function CreateCandidate() {
                   type="text"
                   name="city"
                   id="city"
-                  value={city}
-                  onChange={(e) => setCity(e.target.value)}
+                  value={formState.city}
+                  onChange={handleChange}
                   required
                   className="mt-1 block w-full border shadow-sm py-2 px-3 text-sm border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
                 />
@@ -129,8 +187,8 @@ function CreateCandidate() {
                 <textarea
                   name="about"
                   id="about"
-                  value={about}
-                  onChange={(e) => setAbout(e.target.value)}
+                  value={formState.about}
+                  onChange={handleChange}
                   required
                   className="mt-1 block w-full border shadow-sm py-2 px-3 text-sm border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
                 />
