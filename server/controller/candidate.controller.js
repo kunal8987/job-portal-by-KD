@@ -5,9 +5,12 @@ import { sendErrorResponse } from "./../utils/error.utils.js";
 //CREATE EXPERIENCE FUNCTION
 
 export const createExperience = async (req, res) => {
+    // Try block to handle any potential errors
     try {
+        // Destructuring the request body to get the required fields
         const { title, company, startDate, endDate } = req.body;
 
+        // Checking if the required fields are provided
         if (!title || !company || !startDate) {
             return sendErrorResponse(
                 res,
@@ -16,11 +19,13 @@ export const createExperience = async (req, res) => {
             );
         }
 
+        // Finding the candidate by their authentication ID
         const candidate = await Candidate.findOne({ authId: req.user.authId });
         if (!candidate) {
             return sendErrorResponse(res, 404, "Candidate not found.");
         }
 
+        // Creating a new experience object
         const newExperience = {
             title,
             company,
@@ -28,9 +33,12 @@ export const createExperience = async (req, res) => {
             endDate,
         };
 
+        // Adding the new experience to the candidate's experience array
         candidate.experience.push(newExperience);
+        // Saving the candidate's updated information
         await candidate.save();
 
+        // Sending a success response with the updated candidate information
         return sendSuccessResponse(
             res,
             201,
@@ -38,6 +46,7 @@ export const createExperience = async (req, res) => {
             candidate
         );
     } catch (error) {
+        // Catch block to handle any errors that occur during the process
         return sendErrorResponse(
             res,
             500,
@@ -50,10 +59,13 @@ export const createExperience = async (req, res) => {
 //CREATE EDUCATION FUNCTION
 
 export const createEducation = async (req, res) => {
+    // Try block to handle the process of adding education
     try {
+        // Destructuring the required fields from the request body
         const { institution, degree, fieldOfStudy, startDate, endDate } =
             req.body;
 
+        // Checking if the required fields are provided
         if (!institution || !degree || !fieldOfStudy || !startDate) {
             return sendErrorResponse(
                 res,
@@ -62,11 +74,13 @@ export const createEducation = async (req, res) => {
             );
         }
 
+        // Finding the candidate by their authentication ID
         const candidate = await Candidate.findOne({ authId: req.user.authId });
         if (!candidate) {
             return sendErrorResponse(res, 404, "Candidate not found.");
         }
 
+        // Creating a new education object
         const newEducation = {
             institution,
             degree,
@@ -75,9 +89,12 @@ export const createEducation = async (req, res) => {
             endDate,
         };
 
+        // Adding the new education to the candidate's education array
         candidate.education.push(newEducation);
+        // Saving the candidate's updated information
         await candidate.save();
 
+        // Sending a success response with the updated candidate information
         return sendSuccessResponse(
             res,
             201,
@@ -85,6 +102,7 @@ export const createEducation = async (req, res) => {
             candidate
         );
     } catch (error) {
+        // Catch block to handle any errors that occur during the process
         return sendErrorResponse(
             res,
             500,
@@ -98,8 +116,10 @@ export const createEducation = async (req, res) => {
 
 export const createCandidate = async (req, res) => {
     try {
+        // Extracting required fields from the request body
         const { name, email, phone, state, city, about, skills } = req.body;
 
+        // Checking if all required fields are provided
         if (!name || !email || !phone || !state || !skills || !city || !about) {
             return sendErrorResponse(
                 res,
@@ -108,6 +128,7 @@ export const createCandidate = async (req, res) => {
             );
         }
 
+        // Checking if a candidate with the provided email already exists
         const existingCandidate = await Candidate.findOne({ email });
         if (existingCandidate) {
             return sendErrorResponse(
@@ -117,6 +138,7 @@ export const createCandidate = async (req, res) => {
             );
         }
 
+        // Creating a new candidate with the provided information
         const newCandidate = new Candidate({
             name,
             email,
@@ -128,8 +150,10 @@ export const createCandidate = async (req, res) => {
             authId: req.user.authId,
         });
 
+        // Saving the new candidate to the database
         await newCandidate.save();
 
+        // Sending a success response with the newly created candidate
         return sendSuccessResponse(
             res,
             201,
@@ -137,6 +161,7 @@ export const createCandidate = async (req, res) => {
             newCandidate
         );
     } catch (error) {
+        // Catching any errors that occur during the process and sending an error response
         return sendErrorResponse(
             res,
             500,
@@ -146,24 +171,19 @@ export const createCandidate = async (req, res) => {
     }
 };
 
+//UPDATE CANDIDATE FUNCTION
 export const updateCandidate = async (req, res) => {
+    // Update candidate details
     try {
         const { id } = req.params;
-        const { name, email, phone, state, city, about, skills } = req.body;
 
-        if (!name || !email || !phone || !state || !skills || !city || !about) {
-            return sendErrorResponse(
-                res,
-                400,
-                "All required fields must be provided."
-            );
-        }
-
+        // Find the candidate by id
         const candidate = await Candidate.findById(id);
         if (!candidate) {
             return sendErrorResponse(res, 404, "Candidate not found.");
         }
 
+        // Check if the user is authorized to update the candidate
         if (req.user.authId !== candidate.authId) {
             return sendErrorResponse(
                 res,
@@ -172,23 +192,20 @@ export const updateCandidate = async (req, res) => {
             );
         }
 
-        candidate.name = name;
-        candidate.email = email;
-        candidate.phone = phone;
-        candidate.state = state;
-        candidate.city = city;
-        candidate.about = about;
-        candidate.skills = skills;
+        // Update the candidate details
+        let updateCandidate = await Candidate.findByIdAndUpdate(id, req.body, {
+            new: true,
+        });
 
-        await candidate.save();
-
+        // Send a success response with the updated candidate
         return sendSuccessResponse(
             res,
             200,
             "Candidate updated successfully.",
-            candidate
+            updateCandidate
         );
     } catch (error) {
+        // Catch any errors that occur during the update process and send an error response
         return sendErrorResponse(
             res,
             500,
@@ -198,25 +215,21 @@ export const updateCandidate = async (req, res) => {
     }
 };
 
+
+//UPDATE EDUCATION FUNCTION 
 export const updateEducation = async (req, res) => {
     try {
+        // Extract the candidate ID from the request parameters
         const { id } = req.params;
-        const { institution, degree, fieldOfStudy, startDate, endDate } =
-            req.body;
+       
 
-        if (!institution || !degree || !fieldOfStudy || !startDate) {
-            return sendErrorResponse(
-                res,
-                400,
-                "All required fields must be provided."
-            );
-        }
-
-        const candidate = await Candidate.findById(id);
+        // Find the candidate by ID
+        const candidate = await Candidate.findOne({authId:req.user.authId});
         if (!candidate) {
             return sendErrorResponse(res, 404, "Candidate not found.");
         }
 
+        // Check if the user is authorized to update the candidate's education
         if (req.user.authId !== candidate.authId) {
             return sendErrorResponse(
                 res,
@@ -225,19 +238,25 @@ export const updateEducation = async (req, res) => {
             );
         }
 
-        const education = candidate.education._id(id);
+        // Find the specific education record to update
+        const education = candidate.education.find(
+            (edu) => edu._id.toString() === id
+        );
         if (!education) {
             return sendErrorResponse(res, 404, "Education record not found.");
         }
 
+        // Update the education details
         education.institution = institution;
         education.degree = degree;
         education.fieldOfStudy = fieldOfStudy;
         education.startDate = startDate;
         education.endDate = endDate;
 
+        // Save the updated candidate
         await candidate.save();
 
+        // Send a success response with the updated candidate
         return sendSuccessResponse(
             res,
             200,
@@ -245,6 +264,7 @@ export const updateEducation = async (req, res) => {
             candidate
         );
     } catch (error) {
+        // Catch any errors that occur during the update process and send an error response
         return sendErrorResponse(
             res,
             500,
@@ -254,24 +274,20 @@ export const updateEducation = async (req, res) => {
     }
 };
 
+
+//UPDATE EXPERIENCE FUNCTION 
 export const updateExperience = async (req, res) => {
+    // Update the experience of a candidate
     try {
         const { id } = req.params;
-        const { title, company, startDate, endDate } = req.body;
 
-        if (!title || !company || !startDate) {
-            return sendErrorResponse(
-                res,
-                400,
-                "All required fields must be provided."
-            );
-        }
-
-        const candidate = await Candidate.findOne(id);
+        // Find the candidate by ID
+        const candidate = await Candidate.findOne({authId:req.user.authId});
         if (!candidate) {
             return sendErrorResponse(res, 404, "Candidate not found.");
         }
 
+        // Check if the user is authorized to update the candidate's experience
         if (req.user.authId !== candidate.authId) {
             return sendErrorResponse(
                 res,
@@ -280,18 +296,22 @@ export const updateExperience = async (req, res) => {
             );
         }
 
+        // Find the specific experience record to update
         const experience = candidate.experience._id(id);
         if (!experience) {
             return sendErrorResponse(res, 404, "Experience record not found.");
         }
 
+        // Update the experience details
         experience.title = title;
         experience.company = company;
         experience.startDate = startDate;
         experience.endDate = endDate;
 
+        // Save the updated candidate
         await candidate.save();
 
+        // Send a success response with the updated candidate
         return sendSuccessResponse(
             res,
             200,
@@ -299,6 +319,7 @@ export const updateExperience = async (req, res) => {
             candidate
         );
     } catch (error) {
+        // Catch any errors that occur during the update process and send an error response
         return sendErrorResponse(
             res,
             500,

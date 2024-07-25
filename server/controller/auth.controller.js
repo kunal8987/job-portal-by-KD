@@ -60,16 +60,19 @@ export const register = async (req, res) => {
 
 export const login = async (req, res) => {
     try {
+        // Extract email and password from request body
         const { email, password } = req.body;
 
+        // Validate email and password presence
         if (!email || !password) {
             return sendErrorResponse(
                 res,
-                400,
+                 400,
                 "email and password are required"
             );
         }
 
+        // Validate password length
         if (password.length < 8) {
             return sendErrorResponse(
                 res,
@@ -78,27 +81,29 @@ export const login = async (req, res) => {
             );
         }
 
-        // Check if user exists
+        // Check if user exists by email
         const user = await Auth.findOne({ email });
         if (!user) {
             return sendErrorResponse(res, 400, "Invalid Email Or Password");
         }
 
-        // Compare password
+        // Compare provided password with user's password
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
             return sendErrorResponse(res, 400, "Invalid Password");
         }
 
-        // Generate JWT token
+        // Generate JWT token for authenticated user
         const token = jwt.sign(
             { authId: user._id, authEmail: user.email },
             process.env.JOB_JWT_SECRET_KEY,
             { expiresIn: "1d" }
         );
+        // Remove password from user object before sending
         user.password = undefined;
         return sendSuccessResponse(res, "Login Successful", { token, user });
     } catch (error) {
+        // Handle any errors that occur during the login process
         return sendErrorResponse(res, 500, {
             message: "Server Error From Login Auth Controller",
             error: error.message,
