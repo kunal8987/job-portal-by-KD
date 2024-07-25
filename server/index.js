@@ -6,6 +6,7 @@ import connectDB from "./utils/db.js";
 import authRouter from "./routes/auth.routes.js";
 import candidateRouter from "./routes/candidate.routes.js";
 import { recuriterRouter } from "./routes/recuriter.routes.js";
+import jobRoute from "./routes/job.routes.js";
 
 // Loading environment variables
 dotenv.config();
@@ -27,6 +28,10 @@ app.use("/api/v1/candidate", candidateRouter);
 
 // Using the recruiter router
 app.use("/api/v1/recuriter", recuriterRouter);
+
+// Using the jon router
+app.use("/api/v1/job", jobRoute);
+
 
 // Setting the port
 let port = process.env.JOB_PORT || 4500;

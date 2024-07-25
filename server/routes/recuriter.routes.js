@@ -12,4 +12,4 @@ export const recuriterRouter = express.Router();
 recuriterRouter.post("/create", authMiddleware, createRecruiter);
 
 // Handle PATCH request for updating a recruiter
-recuriterRouter.patch("/update", authMiddleware, updateRecruiter);
+recuriterRouter.patch("/update/:id", authMiddleware, updateRecruiter);
