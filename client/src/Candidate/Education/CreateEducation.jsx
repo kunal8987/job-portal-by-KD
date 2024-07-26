@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Toast } from "../../Component/Alert";
 import { useDispatch, useSelector } from "react-redux";
+import SmallNav from "../../Component/SmallNav";
 // import { addEducation } from './../../Redux/Candidate/Action/CandidateAction';
 
 let initialState = {
@@ -46,6 +47,7 @@ function CreateEducation() {
 
   return (
     <div className="container bg-gray-100 pb-5">
+      <SmallNav/>
       <h1 className="text-xl p-3 lg:p-8 text-center font-bold lg:text-2xl 2xl:text-3xl font-lora text-red-700 mb-2">
         Education Details
       </h1>

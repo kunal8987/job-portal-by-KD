@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Toast } from "../../Component/Alert";
 import { addCandidate } from "../../Redux/Candidate/Action/CandidateAction";
 import { useDispatch, useSelector } from "react-redux";
+import SmallNav from "../../Component/SmallNav";
 
 // Initial state for the form
 const initialState = {
@@ -111,7 +112,8 @@ function CreateCandidate() {
   };
 
   return (
-    <div className="container bg-gray-100 pb-5">
+    <div className="container bg-gray-50 pb-5">
+      <SmallNav />
       {/* Heading for the candidate details section */}
       <h1 className="text-xl p-3 lg:p-8 text-center font-bold lg:text-2xl 2xl:text-3xl font-lora text-red-700 mb-2">
         Candidate Details

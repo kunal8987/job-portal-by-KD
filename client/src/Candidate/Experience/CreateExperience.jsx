@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Toast } from "../../Component/Alert";
 import { useDispatch, useSelector } from "react-redux";
+import SmallNav from "../../Component/SmallNav";
 
 
 
@@ -44,6 +45,7 @@ function CreateExperience() {
   return (
     //  Container for the experience details form
     <div className="container bg-gray-100 pb-5">
+      <SmallNav/>
        {/* Heading for the experience details section */}
       <h1 className="text-xl p-3 lg:p-8 text-center font-bold lg:text-2xl 2xl:text-3xl font-lora text-red-700 mb-2">
         Experience Details

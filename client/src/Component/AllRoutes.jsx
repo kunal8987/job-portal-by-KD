@@ -7,6 +7,7 @@ import CreateCandidate from "./../Candidate/Create/CreateCandidate";
 import CreateEducation from "./../Candidate/Education/CreateEducation";
 import CreateExperience from "./../Candidate/Experience/CreateExperience";
 import Home from "../Job/LandingPage/Home";
+import Create from "../Job/Create/Create";
 const AllRoutes = () => {
   return (
     <>
@@ -18,6 +19,7 @@ const AllRoutes = () => {
         <Route path="/candidate/create" element={<CreateCandidate />} />
         <Route path="/candidate/education" element={<CreateEducation />} />
         <Route path="/candidate/experience" element={<CreateExperience />} />
+        <Route path="/job/create" element={<Create />} />
       </Routes>
     </>
   );
