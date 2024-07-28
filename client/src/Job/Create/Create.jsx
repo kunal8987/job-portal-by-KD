@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { Toast } from "../../Component/Alert";
+import { useDispatch, useSelector } from "react-redux";
+import { addJob } from "../../Redux/Job/Action/JobAction";
 
 let initialState = {
   title: "",
@@ -7,12 +9,17 @@ let initialState = {
   description: "",
   location: "",
   salary: "",
-  responsibilitys: "",
+  responsibilities: "",
   requirements: "",
 };
 
 const Create = () => {
   const [formState, setFormState] = useState(initialState);
+
+  const { error, message } = useSelector((store) => {
+    return store.jobReducer;
+  });
+  const dispatch = useDispatch();
 
   const handleChange = (e) => {
     setFormState({
@@ -30,12 +37,28 @@ const Create = () => {
       !formState.description ||
       !formState.location ||
       !formState.salary ||
-      !formState.responsibilitys ||
+      !formState.responsibilities ||
       !formState.requirements
     ) {
       Toast.fire({
         icon: "warning",
         title: "Please fill in all the fields.",
+      });
+      return;
+    }
+
+    dispatch(addJob(formState));
+    if (message) {
+      Toast.fire({
+        icon: "success",
+        title: message,
+      });
+      return;
+    }
+    if (error) {
+      Toast.fire({
+        icon: "error",
+        title: error,
       });
       return;
     }
@@ -160,15 +183,15 @@ const Create = () => {
                 </div>
                 <div className="mb-4">
                   <label
-                    htmlFor="responsibilitys"
+                    htmlFor="responsibilities"
                     className="block text-sm font-merry font-medium text-gray-700 sm:text-base md:text-sm lg:text-base xl:text-lg 2xl:text-xl"
                   >
                     Responsibilities
                   </label>
                   <textarea
-                    name="responsibilitys"
-                    id="responsibilitys"
-                    value={formState.responsibilitys}
+                    name="responsibilities"
+                    id="responsibilities"
+                    value={formState.responsibilities}
                     onChange={handleChange}
                     required
                     className="mt-1 block w-full border shadow-sm py-2 px-3 text-sm border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"

@@ -23,15 +23,15 @@ const jobSchema = new mongoose.Schema(
             trim: true,
         },
         salary: {
-            type: Number,
+            type: String,
             required: true,
         },
         requirements: {
-            type: [String],
+            type: String,
             required: true,
         },
         responsibilities: {
-            type: [String],
+            type: String,
             required: true,
         },
         authId: {
@@ -45,7 +45,7 @@ const jobSchema = new mongoose.Schema(
         postedBy: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Recruiter",
-            required: true,
+            // required: true,
         },
         applicants: [
             {

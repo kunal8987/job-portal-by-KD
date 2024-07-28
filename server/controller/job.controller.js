@@ -33,7 +33,17 @@ export const createJob = async (req, res) => {
             );
         }
         // Creating a new job instance
-        const newJob = new Job(req.body);
+        const newJob = new Job({
+            title,
+            description,
+            company,
+            location,
+            salary,
+            requirements,
+            responsibilities,
+            authId: req.user.authId,
+            authEmail: req.user.authEmail,
+        });
 
         // Saving the job to the database
         await newJob.save();
