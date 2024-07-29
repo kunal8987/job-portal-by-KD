@@ -34,7 +34,7 @@ export const loginUser = (payload) => (dispatch) => {
     .post(`${process.env.REACT_APP_BASE_API_URL}auth/login`, payload)
     .then((res) => {
       // Log the response data
-      // console.log(res.data);
+      console.log(res.data);
       sessionData.setItem("adminToken", JSON.stringify(res.data.data.token));
       sessionData.setItem("userRole", JSON.stringify(res.data.data.user.role));
       // Dispatch action to indicate request was successful

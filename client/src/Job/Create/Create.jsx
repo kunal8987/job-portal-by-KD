@@ -53,6 +53,7 @@ const Create = () => {
         icon: "success",
         title: message,
       });
+      setFormState(initialState);
       return;
     }
     if (error) {
@@ -60,6 +61,7 @@ const Create = () => {
         icon: "error",
         title: error,
       });
+      setFormState(initialState);
       return;
     }
     console.log(formState);

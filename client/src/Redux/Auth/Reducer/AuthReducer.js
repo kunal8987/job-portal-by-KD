@@ -3,7 +3,8 @@ import { REQUEST_LOADING, REQUEST_PENDING, REQUEST_SUCCESS } from "../Action/Aut
 let initialState = {
   loading: false,
   error: null,
-  message:''
+  message:'',
+  success:null
 };
 
 export const authReducer = (state = initialState, { type, payload }) => {
@@ -19,6 +20,7 @@ export const authReducer = (state = initialState, { type, payload }) => {
         ...state,
         loading: false,
         message:payload,
+        success:"true"
       };
 
     case REQUEST_PENDING:
@@ -26,6 +28,7 @@ export const authReducer = (state = initialState, { type, payload }) => {
         ...state,
         loading: false,
         error: payload,
+        success:"false"
       };
     default:
       return state;

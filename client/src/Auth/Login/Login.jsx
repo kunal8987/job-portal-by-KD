@@ -16,7 +16,7 @@ const Login = () => {
   const [formState, setFormState] = useState(initialState);
 
   // Extracting message and error from the store using useSelector
-  const { message, error } = useSelector((store) => {
+  const { message, error, success } = useSelector((store) => {
     return store.authReducer;
   });
 
@@ -55,21 +55,19 @@ const Login = () => {
     }
     // Dispatching the login action
     dispatch(loginUser(formState));
-    // Handling success and error messages
-    if (message) {
+
+    if (success === "true") {
       Toast.fire({
         icon: "success",
         title: message,
       });
-      setFormState(initialState);
       return;
     }
-    if (error) {
+    if (success === "false") {
       Toast.fire({
         icon: "error",
         title: error,
       });
-      setFormState(initialState);
       return;
     }
   };
