@@ -11,8 +11,6 @@ import { token } from "../../Component/Token";
 
 
 
-// const sessionData = window.sessionStorage;
-
 
 let initialState = {
   firstName: "",
@@ -39,7 +37,7 @@ function CreateRecruter() {
     });
   };
 
-  // let token = JSON.parse(sessionData.getItem("adminToken"));
+
 
   const handleSubmit = (e) => {
     e.preventDefault();

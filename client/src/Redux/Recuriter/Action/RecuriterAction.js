@@ -11,8 +11,8 @@ let token = JSON.parse(sessionData.getItem("adminToken"));
 
 
 
-// ADD EDUCATION FUNCTION
-export const addEducation = (payload) => (dispatch) => {
+// GET RECURITER FUNCTION
+export const getRecuriter = (payload) => (dispatch) => {
   // Dispatch action to indicate request is loading
   dispatch({ type: REQUEST_LOADING });
   // Make POST request to register user
