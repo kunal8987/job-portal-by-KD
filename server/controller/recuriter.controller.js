@@ -95,3 +95,32 @@ export const updateRecruiter = async (req, res) => {
         );
     }
 };
+
+
+// GET RECRUITER FUNCTION
+export const getRecruiter = async (req, res) => {
+    try {
+        // Attempt to find the recruiter by their ID
+        const recruiter = await Recruiter.findOne({ authId: req.user.authId });
+        // If the recruiter is not found, send a 404 error response
+        if (!recruiter) {
+            return sendErrorResponse(res, 404, "Recruiter not found.");
+        }
+
+        // Send a success response with the found recruiter
+        return sendSuccessResponse(
+            res,
+            200,
+            "Recruiter retrieved successfully.",
+            recruiter
+        );
+    } catch (error) {
+        // Handle any errors that occur during the retrieval process
+        return sendErrorResponse(
+            res,
+            500,
+            "An error occurred while retrieving the recruiter.",
+            error.message
+        );
+    }
+};

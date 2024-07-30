@@ -4,6 +4,7 @@ import {
     createCandidate,
     createEducation,
     createExperience,
+    getCandidate,
 } from "../controller/candidate.controller.js";
 
 // Create a new router for candidate operations
@@ -17,5 +18,8 @@ candidateRouter.patch("/add-experience", authMiddleware, createExperience);
 
 // Handle PATCH request for adding education to a candidate
 candidateRouter.patch("/add-education", authMiddleware, createEducation);
+
+
+candidateRouter.patch("/get", authMiddleware, getCandidate);
 
 export default candidateRouter;

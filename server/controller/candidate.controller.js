@@ -328,3 +328,35 @@ export const updateExperience = async (req, res) => {
         );
     }
 };
+
+
+// GET CANDIDATE FUNCTION
+export const getCandidate = async (req, res) => {
+    try {
+
+        // Attempt to find the candidate by their ID
+        const candidate = await Candidate.findOne({authId:req.user.authId});
+        // If the candidate is not found, send a 404 error response
+        if (!candidate) {
+            return sendErrorResponse(res, 404, "Candidate not found.");
+        }
+
+        // Send a success response with the found candidate
+        return sendSuccessResponse(
+            res,
+            200,
+            "Candidate retrieved successfully.",
+            candidate
+        );
+    } catch (error) {
+        // Handle any errors that occur during the retrieval process
+        return sendErrorResponse(
+            res,
+            500,
+            "An error occurred while retrieving the candidate.",
+            error.message
+        );
+    }
+};
+
+

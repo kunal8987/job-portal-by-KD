@@ -3,6 +3,7 @@ import authMiddleware from "../middleware/auth.middleware.js";
 import {
     createJob,
     deleteJob,
+    getJob,
     updateJob,
 } from "../controller/job.controller.js";
 
@@ -11,6 +12,8 @@ const jobRoute = express.Router();
 
 // Handling POST request for creating a new job
 jobRoute.post("/create", authMiddleware, createJob);
+
+jobRoute.post("/get", getJob);
 
 // Handling PATCH request for updating a job
 jobRoute.patch("/update-job/:id", authMiddleware, updateJob);
