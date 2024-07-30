@@ -1,3 +1,5 @@
+import { sendErrorResponse } from "../utils/error.utils.js";
+import { sendSuccessResponse } from "../utils/res.utils.js";
 import Recruiter from "./../models/recuriter.model.js";
 
 // CREATE RECRUITER FUNCTION
@@ -26,7 +28,14 @@ export const createRecruiter = async (req, res) => {
         }
 
         // Create a new recruiter with the provided details
-        const newRecruiter = new Recruiter(req.body);
+        const newRecruiter = new Recruiter({
+            firstName,
+            lastName,
+            email,
+            phone,
+            company,
+            authId: req.user.authId,
+        });
 
         // Save the new recruiter to the database
         await newRecruiter.save();
