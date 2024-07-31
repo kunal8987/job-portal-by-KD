@@ -344,7 +344,6 @@ export const getCandidate = async (req, res) => {
         // Send a success response with the found candidate
         return sendSuccessResponse(
             res,
-            200,
             "Candidate retrieved successfully.",
             candidate
         );
@@ -354,6 +353,61 @@ export const getCandidate = async (req, res) => {
             res,
             500,
             "An error occurred while retrieving the candidate.",
+            error.message
+        );
+    }
+};
+
+// GET EDUCATION FUNCTION
+export const getEducation = async (req, res) => {
+    try {
+        // Attempt to find the candidate by their ID
+        const candidate = await Candidate.findOne({authId: req.user.authId});
+        // If the candidate is not found, send a 404 error response
+        if (!candidate) {
+            return sendErrorResponse(res, 404, "Candidate not found.");
+        }
+
+        // Send a success response with the candidate's education details
+        return sendSuccessResponse(
+            res,
+            "Education details retrieved successfully.",
+            candidate.education
+        );
+    } catch (error) {
+        // Handle any errors that occur during the retrieval process
+        return sendErrorResponse(
+            res,
+            500,
+            "An error occurred while retrieving the education details.",
+            error.message
+        );
+    }
+};
+
+
+// GET EXPERIENCE FUNCTION
+export const getExperience = async (req, res) => {
+    try {
+        // Attempt to find the candidate by their ID
+        const candidate = await Candidate.findOne({authId: req.user.authId});
+        // If the candidate is not found, send a 404 error response
+        if (!candidate) {
+            return sendErrorResponse(res, 404, "Candidate not found.");
+        }
+
+        // Send a success response with the candidate's experience details
+        return sendSuccessResponse(
+            res,
+            "Experience details retrieved successfully.",
+            candidate.experience
+        );
+    } catch (error) {
+        // Handle any errors that occur during the retrieval process
+        return sendErrorResponse(
+            res,
+            500,
+            "An error occurred while retrieving the experience details.",
             error.message
         );
     }
