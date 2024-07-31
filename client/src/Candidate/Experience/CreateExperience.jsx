@@ -2,8 +2,13 @@ import React, { useState } from "react";
 import { Toast } from "../../Component/Alert";
 import { useDispatch, useSelector } from "react-redux";
 import SmallNav from "../../Component/SmallNav";
-
-
+import {
+  REQUEST_LOADING,
+  REQUEST_PENDING,
+  REQUEST_SUCCESS,
+} from "./../../Redux/Candidate/Action/CandidateAction";
+import { token } from "./../../Component/Token";
+import axios from "axios";
 
 const initialState = {
   title: "",
@@ -14,58 +19,84 @@ const initialState = {
 
 function CreateExperience() {
   const [formState, setFormState] = useState(initialState);
- 
-  const dispatch = useDispatch()
 
-  const {error , message} = useSelector((store)=>{
-    return store.candidateReducer
-  })
-
+  const dispatch = useDispatch();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormState({ ...formState, [name]: value });
   };
 
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!formState.title || !formState.company || !formState.startDate ) {
+    if (!formState.title || !formState.company || !formState.startDate) {
       Toast.fire({
         icon: "warning",
         title: "Please fill in all the fields.",
       });
       return;
     }
-    console.log(formState)
+
+    // Dispatch action to indicate request is loading
+    dispatch({ type: REQUEST_LOADING });
+    // Make POST request to register user
+    axios
+      .patch(
+        `${process.env.REACT_APP_BASE_API_URL}candidate/add-experience`,
+        formState,
+        {
+          headers: {
+            Authorization: `${token}`,
+          },
+        }
+      )
+      .then((res) => {
+        // Log the response data
+        // console.log(res.data);
+        // Dispatch action to indicate request was successful
+        dispatch({ type: REQUEST_SUCCESS, payload: res.data.message });
+        Toast.fire({
+          icon: "success",
+          title: res.data.message,
+        });
+      })
+      .catch((err) => {
+        // console.log(err.response.data.message);
+        // Dispatch action to indicate request is pending
+        dispatch({ type: REQUEST_PENDING, payload: err.response.data.message });
+        Toast.fire({
+          icon: "error",
+          title: err.response.data.message,
+        });
+      });
+
+    setFormState(initialState);
   };
-
-
 
   return (
     //  Container for the experience details form
     <div className="container bg-gray-100 pb-5">
-      <SmallNav/>
-       {/* Heading for the experience details section */}
+      <SmallNav />
+      {/* Heading for the experience details section */}
       <h1 className="text-xl p-3 lg:p-8 text-center font-bold lg:text-2xl 2xl:text-3xl font-lora text-red-700 mb-2">
         Experience Details
       </h1>
-       {/* Flex container for the form and image */}
+      {/* Flex container for the form and image */}
       <div className="flex gap-5 flex-col lg:flex-row">
-         {/* Image container */}
+        {/* Image container */}
         <div className="w-full lg:w-1/2 ">
-           {/* Image for the experience section */}
+          {/* Image for the experience section */}
           <img
             src="https://plus.unsplash.com/premium_photo-1661778490723-371305b4fb06?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDl8fHdvcmt8ZW58MHx8MHx8fDA%3D"
             alt="Candidate Experience"
             className="w-full h-full object-cover rounded-lg"
           />
         </div>
-         {/* Form container */}
+        {/* Form container */}
         <div className="w-full lg:w-1/2">
-           {/* Form for adding experience details */}
+          {/* Form for adding experience details */}
           <form className="space-y-6" onSubmit={handleSubmit}>
-             {/* Form fields for title, company, start year and end year */}
+            {/* Form fields for title, company, start year and end year */}
             <div className="flex flex-col">
               <div className="mb-4">
                 <label
@@ -137,7 +168,7 @@ function CreateExperience() {
                 />
               </div>
             </div>
-             {/* Submit button for adding experience */}
+            {/* Submit button for adding experience */}
             <button
               type="submit"
               className="w-full flex font-lora justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-base sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl font-medium text-white bg-red-700 hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"

@@ -1,4 +1,5 @@
 import {
+  GET_REQUEST_SUCCESS,
   REQUEST_LOADING,
   REQUEST_PENDING,
   REQUEST_SUCCESS,
@@ -20,6 +21,11 @@ export const candidateReducer = (state = initialState, { type, payload }) => {
         ...state,
         loading: "false",
         message: payload,
+      };
+    case GET_REQUEST_SUCCESS:
+      return {
+        ...state,
+        loading: "false",
         candidate: payload,
       };
     case REQUEST_PENDING:

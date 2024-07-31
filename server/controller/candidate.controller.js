@@ -41,7 +41,7 @@ export const createExperience = async (req, res) => {
         // Sending a success response with the updated candidate information
         return sendSuccessResponse(
             res,
-            201,
+
             "Experience added successfully.",
             candidate
         );
@@ -97,7 +97,6 @@ export const createEducation = async (req, res) => {
         // Sending a success response with the updated candidate information
         return sendSuccessResponse(
             res,
-            201,
             "Education added successfully.",
             candidate
         );
@@ -156,7 +155,6 @@ export const createCandidate = async (req, res) => {
         // Sending a success response with the newly created candidate
         return sendSuccessResponse(
             res,
-            201,
             "Candidate created successfully.",
             newCandidate
         );
@@ -200,7 +198,7 @@ export const updateCandidate = async (req, res) => {
         // Send a success response with the updated candidate
         return sendSuccessResponse(
             res,
-            200,
+
             "Candidate updated successfully.",
             updateCandidate
         );
@@ -215,16 +213,14 @@ export const updateCandidate = async (req, res) => {
     }
 };
 
-
-//UPDATE EDUCATION FUNCTION 
+//UPDATE EDUCATION FUNCTION
 export const updateEducation = async (req, res) => {
     try {
         // Extract the candidate ID from the request parameters
         const { id } = req.params;
-       
 
         // Find the candidate by ID
-        const candidate = await Candidate.findOne({authId:req.user.authId});
+        const candidate = await Candidate.findOne({ authId: req.user.authId });
         if (!candidate) {
             return sendErrorResponse(res, 404, "Candidate not found.");
         }
@@ -259,7 +255,7 @@ export const updateEducation = async (req, res) => {
         // Send a success response with the updated candidate
         return sendSuccessResponse(
             res,
-            200,
+
             "Education updated successfully.",
             candidate
         );
@@ -274,15 +270,14 @@ export const updateEducation = async (req, res) => {
     }
 };
 
-
-//UPDATE EXPERIENCE FUNCTION 
+//UPDATE EXPERIENCE FUNCTION
 export const updateExperience = async (req, res) => {
     // Update the experience of a candidate
     try {
         const { id } = req.params;
 
         // Find the candidate by ID
-        const candidate = await Candidate.findOne({authId:req.user.authId});
+        const candidate = await Candidate.findOne({ authId: req.user.authId });
         if (!candidate) {
             return sendErrorResponse(res, 404, "Candidate not found.");
         }
@@ -314,7 +309,7 @@ export const updateExperience = async (req, res) => {
         // Send a success response with the updated candidate
         return sendSuccessResponse(
             res,
-            200,
+
             "Experience updated successfully.",
             candidate
         );
@@ -329,13 +324,11 @@ export const updateExperience = async (req, res) => {
     }
 };
 
-
 // GET CANDIDATE FUNCTION
 export const getCandidate = async (req, res) => {
     try {
-
         // Attempt to find the candidate by their ID
-        const candidate = await Candidate.findOne({authId:req.user.authId});
+        const candidate = await Candidate.findOne({ authId: req.user.authId });
         // If the candidate is not found, send a 404 error response
         if (!candidate) {
             return sendErrorResponse(res, 404, "Candidate not found.");
@@ -362,7 +355,7 @@ export const getCandidate = async (req, res) => {
 export const getEducation = async (req, res) => {
     try {
         // Attempt to find the candidate by their ID
-        const candidate = await Candidate.findOne({authId: req.user.authId});
+        const candidate = await Candidate.findOne({ authId: req.user.authId });
         // If the candidate is not found, send a 404 error response
         if (!candidate) {
             return sendErrorResponse(res, 404, "Candidate not found.");
@@ -385,12 +378,11 @@ export const getEducation = async (req, res) => {
     }
 };
 
-
 // GET EXPERIENCE FUNCTION
 export const getExperience = async (req, res) => {
     try {
         // Attempt to find the candidate by their ID
-        const candidate = await Candidate.findOne({authId: req.user.authId});
+        const candidate = await Candidate.findOne({ authId: req.user.authId });
         // If the candidate is not found, send a 404 error response
         if (!candidate) {
             return sendErrorResponse(res, 404, "Candidate not found.");
@@ -412,5 +404,3 @@ export const getExperience = async (req, res) => {
         );
     }
 };
-
-

@@ -78,16 +78,16 @@ function CreateRecruter() {
         }
       )
       .then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
         // Dispatch action to indicate request was successful
-        dispatch({ type: REQUEST_SUCCESS, payload: res.data.data });
+        dispatch({ type: REQUEST_SUCCESS, payload: res.data.message });
         Toast.fire({
           icon: "success",
-          title: res.data.data,
+          title: res.data.message,
         });
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
         // Dispatch action to indicate request is pending
         dispatch({ type: REQUEST_PENDING, payload: err.response.data.message });
         Toast.fire({
@@ -96,8 +96,7 @@ function CreateRecruter() {
         });
       });
 
-    // If all validations pass, proceed with form submission
-    console.log("Form submitted successfully", formState);
+    setFormState(initialState);
   };
 
   return (

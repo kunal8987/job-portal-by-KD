@@ -1,8 +1,14 @@
 import React, { useState } from "react";
 import { Toast } from "../../Component/Alert";
-import { addCandidate } from "../../Redux/Candidate/Action/CandidateAction";
-import { useDispatch, useSelector } from "react-redux";
+import {
+  REQUEST_LOADING,
+  REQUEST_PENDING,
+  REQUEST_SUCCESS,
+} from "../../Redux/Candidate/Action/CandidateAction";
+import { useDispatch } from "react-redux";
 import SmallNav from "../../Component/SmallNav";
+import { token } from "./../../Component/Token";
+import axios from "axios";
 
 // Initial state for the form
 const initialState = {
@@ -22,10 +28,6 @@ function CreateCandidate() {
   // State for the skills
   const [skills, setSkills] = useState(initialState.skills); // Corrected initialization
 
-  // Selecting error and message from the store
-  const { error, message } = useSelector((store) => {
-    return store.candidateReducer;
-  });
   // Dispatch function
   const dispatch = useDispatch();
 
@@ -48,67 +50,79 @@ function CreateCandidate() {
   };
 
   // Function to handle form submission
-  const handleSubmit = async (e) => {
-    try {
-      e.preventDefault();
-      const { name, email, phone, state, city, about } = formState;
-      const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      const isValidPhone = /^\d{10}$/;
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const { name, email, phone, state, city, about } = formState;
+    const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const isValidPhone = /^\d{10}$/;
 
-      // Validation checks
-      if (!name || !email || !phone || !state || !city || !about) {
-        Toast.fire({
-          icon: "warning",
-          title: "Please fill in all the fields.",
-        });
-        return;
-      }
-
-      if (!isValidEmail.test(email)) {
-        Toast.fire({
-          icon: "warning",
-          title: "Invalid email format.",
-        });
-        return;
-      }
-
-      if (!isValidPhone.test(phone)) {
-        Toast.fire({
-          icon: "warning",
-          title: "Invalid phone number format.",
-        });
-        return;
-      }
-
-      if (skills.length === 0) {
-        Toast.fire({
-          icon: "warning",
-          title: "Please add at least one skill.",
-        });
-        return;
-      }
-      // Dispatching the action to add a candidate
-      await dispatch(addCandidate(formState));
-      if (message) {
-        Toast.fire({
-          icon: "success",
-          title: message,
-        });
-        setFormState(initialState);
-        return;
-      }
-    } catch (error) {
-      if (error) {
-        Toast.fire({
-          icon: "error",
-          title: error,
-        });
-        setFormState(initialState);
-        return;
-      }
+    // Validation checks
+    if (!name || !email || !phone || !state || !city || !about) {
+      Toast.fire({
+        icon: "warning",
+        title: "Please fill in all the fields.",
+      });
+      return;
     }
 
-    console.log(formState, skills);
+    if (!isValidEmail.test(email)) {
+      Toast.fire({
+        icon: "warning",
+        title: "Invalid email format.",
+      });
+      return;
+    }
+
+    if (!isValidPhone.test(phone)) {
+      Toast.fire({
+        icon: "warning",
+        title: "Invalid phone number format.",
+      });
+      return;
+    }
+
+    if (skills.length === 0) {
+      Toast.fire({
+        icon: "warning",
+        title: "Please add at least one skill.",
+      });
+      return;
+    }
+    // Dispatch action to indicate request is loading
+    dispatch({ type: REQUEST_LOADING });
+    // Make POST request to register user
+    axios
+      .post(
+        `${process.env.REACT_APP_BASE_API_URL}candidate/create`,
+        formState,
+        {
+          headers: {
+            Authorization: `${token}`,
+          },
+        }
+      )
+      .then((res) => {
+        // Log the response data
+        // console.log(res.data);
+        // Dispatch action to indicate request was successful
+        dispatch({ type: REQUEST_SUCCESS, payload: res.data.data });
+        Toast.fire({
+          icon: "success",
+          title: res.data.message,
+        });
+      })
+      .catch((err) => {
+        // console.log(err.response.data.message);
+        // Dispatch action to indicate request is pending
+        dispatch({ type: REQUEST_PENDING, payload: err.response.data.message });
+        Toast.fire({
+          icon: "error",
+          title: err.response.data.message,
+        });
+      });
+
+    setFormState(initialState)
+    setSkills(initialState.skills)
   };
 
   return (

@@ -43,7 +43,6 @@ export const createRecruiter = async (req, res) => {
         // Send a success response with the newly created recruiter
         return sendSuccessResponse(
             res,
-            201,
             "Recruiter created successfully.",
             newRecruiter
         );
@@ -81,7 +80,7 @@ export const updateRecruiter = async (req, res) => {
         // Send a success response with the updated recruiter
         return sendSuccessResponse(
             res,
-            200,
+           
             "Recruiter updated successfully.",
             updateRecruiter // Assign the updated recruiter to the variable recruiter for clarity
         );

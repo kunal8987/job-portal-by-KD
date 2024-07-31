@@ -2,7 +2,13 @@ import React, { useState } from "react";
 import { Toast } from "../../Component/Alert";
 import { useDispatch, useSelector } from "react-redux";
 import SmallNav from "../../Component/SmallNav";
-// import { addEducation } from './../../Redux/Candidate/Action/CandidateAction';
+import { token } from "./../../Component/Token";
+import axios from "axios";
+import {
+  REQUEST_LOADING,
+  REQUEST_PENDING,
+  REQUEST_SUCCESS,
+} from "./../../Redux/Candidate/Action/CandidateAction";
 
 let initialState = {
   institution: "",
@@ -14,11 +20,8 @@ let initialState = {
 function CreateEducation() {
   const [formState, setFormState] = useState(initialState);
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
-  const {error , message} = useSelector((store)=>{
-    return store.candidateReducer
-  })
   const handleChange = (e) => {
     setFormState({
       ...formState,
@@ -32,7 +35,7 @@ function CreateEducation() {
       !formState.institution ||
       !formState.degree ||
       !formState.fieldOfStudy ||
-      !formState.startDate 
+      !formState.startDate
     ) {
       Toast.fire({
         icon: "warning",
@@ -41,13 +44,45 @@ function CreateEducation() {
       return;
     }
 
-    // dispatch(addEducation(formState))
-    console.log(formState);
+    // Dispatch action to indicate request is loading
+    dispatch({ type: REQUEST_LOADING });
+    // Make POST request to register user
+    axios
+      .patch(
+        `${process.env.REACT_APP_BASE_API_URL}candidate/add-education`,
+        formState,
+        {
+          headers: {
+            Authorization: `${token}`,
+          },
+        }
+      )
+      .then((res) => {
+        // Log the response data
+        // console.log(res.data);
+        // Dispatch action to indicate request was successful
+        dispatch({ type: REQUEST_SUCCESS, payload: res.data.message });
+        Toast.fire({
+          icon: "success",
+          title: res.data.message,
+        });
+      })
+      .catch((err) => {
+        // console.log(err.response.data.message);
+        // Dispatch action to indicate request is pending
+        dispatch({ type: REQUEST_PENDING, payload: err.response.data.message });
+        Toast.fire({
+          icon: "error",
+          title: err.response.data.message,
+        });
+      });
+
+    setFormState(initialState);
   };
 
   return (
     <div className="container bg-gray-100 pb-5">
-      <SmallNav/>
+      <SmallNav />
       <h1 className="text-xl p-3 lg:p-8 text-center font-bold lg:text-2xl 2xl:text-3xl font-lora text-red-700 mb-2">
         Education Details
       </h1>

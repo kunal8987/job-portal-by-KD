@@ -132,11 +132,9 @@ export const deleteJob = async (req, res) => {
     }
 };
 
-
 // GET JOB FUNCTION
 export const getJob = async (req, res) => {
     try {
-       
         // Find the job by ID
         const job = await Job.find();
         if (!job) {
@@ -144,7 +142,7 @@ export const getJob = async (req, res) => {
         }
 
         // Sending a success response with the found job
-        sendSuccessResponse(res, 200, "Job retrieved successfully.", job);
+        sendSuccessResponse(res, "Job retrieved successfully.", job);
     } catch (error) {
         // Handling errors
         console.error(
