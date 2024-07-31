@@ -20,6 +20,6 @@ candidateRouter.patch("/add-experience", authMiddleware, createExperience);
 candidateRouter.patch("/add-education", authMiddleware, createEducation);
 
 
-candidateRouter.patch("/get", authMiddleware, getCandidate);
+candidateRouter.get("/get", authMiddleware, getCandidate);
 
 export default candidateRouter;
