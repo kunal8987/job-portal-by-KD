@@ -34,7 +34,7 @@ export function Navbar() {
   };
 
   return (
-    <div className=" container py-3 w-full bg-white top-0 sticky z-30">
+    <div className=" container py-3 w-full bg-white top-0 sticky z-30 border shadow-md">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-2 sm:px-6 lg:px-8">
         <div className="inline-flex items-center space-x-2">
           <span className="font-bold font-lora sm:text-xl text-red-700">Job-Portal</span>

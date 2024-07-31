@@ -110,9 +110,8 @@ export const getRecruiter = async (req, res) => {
         // Send a success response with the found recruiter
         return sendSuccessResponse(
             res,
-            200,
             "Recruiter retrieved successfully.",
-            recruiter
+            recruiter,
         );
     } catch (error) {
         // Handle any errors that occur during the retrieval process

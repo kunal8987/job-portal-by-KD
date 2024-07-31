@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Toast } from "../../Component/Alert";
-import { useDispatch} from "react-redux";
+import { useDispatch } from "react-redux";
 import {
   REQUEST_LOADING,
   REQUEST_PENDING,
@@ -8,9 +8,6 @@ import {
 } from "../../Redux/Recuriter/Action/RecuriterAction";
 import axios from "axios";
 import { token } from "../../Component/Token";
-
-
-
 
 let initialState = {
   firstName: "",
@@ -20,14 +17,10 @@ let initialState = {
   email: "",
 };
 
-
 function CreateRecruter() {
-
-
   const [formState, setFormState] = useState(initialState);
 
   const dispatch = useDispatch();
-
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -36,8 +29,6 @@ function CreateRecruter() {
       [name]: value,
     });
   };
-
-
 
   const handleSubmit = (e) => {
     e.preventDefault();

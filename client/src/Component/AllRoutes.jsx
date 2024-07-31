@@ -8,6 +8,7 @@ import CreateEducation from "./../Candidate/Education/CreateEducation";
 import CreateExperience from "./../Candidate/Experience/CreateExperience";
 import Home from "../Job/LandingPage/Home";
 import Create from "../Job/Create/Create";
+import Recuriter from "../Recurter/Display/Recuriter";
 const AllRoutes = () => {
   return (
     <>
@@ -20,6 +21,7 @@ const AllRoutes = () => {
         <Route path="/candidate/education" element={<CreateEducation />} />
         <Route path="/candidate/experience" element={<CreateExperience />} />
         <Route path="/job/create" element={<Create />} />
+        <Route path="/recruiter/get" element={<Recuriter />} />
       </Routes>
     </>
   );
