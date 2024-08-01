@@ -1,7 +1,13 @@
 import React, { useState } from "react";
 import { Toast } from "../../Component/Alert";
-import { useDispatch, useSelector } from "react-redux";
-import { addJob } from "../../Redux/Job/Action/JobAction";
+import { useDispatch } from "react-redux";
+import {
+  REQUEST_LOADING,
+  REQUEST_PENDING,
+  REQUEST_SUCCESS,
+} from "../../Redux/Job/Action/JobAction";
+import { token } from "./../../Component/Token";
+import axios from "axios";
 
 let initialState = {
   title: "",
@@ -16,9 +22,6 @@ let initialState = {
 const Create = () => {
   const [formState, setFormState] = useState(initialState);
 
-  const { error, message } = useSelector((store) => {
-    return store.jobReducer;
-  });
   const dispatch = useDispatch();
 
   const handleChange = (e) => {
@@ -47,24 +50,35 @@ const Create = () => {
       return;
     }
 
-    dispatch(addJob(formState));
-    if (message) {
-      Toast.fire({
-        icon: "success",
-        title: message,
+    // Dispatch action to indicate request is loading
+    dispatch({ type: REQUEST_LOADING });
+    // Make POST request to register job
+    axios
+      .post(`${process.env.REACT_APP_BASE_API_URL}job/create`, formState, {
+        headers: {
+          Authorization: `${token}`,
+        },
+      })
+      .then((res) => {
+        // Log the response data
+        // console.log(res.data);
+        // Dispatch action to indicate request was successful
+        dispatch({ type: REQUEST_SUCCESS, payload: res.data.message });
+        Toast.fire({
+          icon: "success",
+          title: res.data.message,
+        });
+      })
+      .catch((err) => {
+        // console.log(err.response);
+        // Dispatch action to indicate request is pending
+        dispatch({ type: REQUEST_PENDING, payload: err.response.data.message });
+        Toast.fire({
+          icon: "error",
+          title: err.response.data.message,
+        });
       });
-      setFormState(initialState);
-      return;
-    }
-    if (error) {
-      Toast.fire({
-        icon: "error",
-        title: error,
-      });
-      setFormState(initialState);
-      return;
-    }
-    console.log(formState);
+    setFormState(initialState);
   };
 
   return (

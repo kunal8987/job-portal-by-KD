@@ -1,18 +1,16 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getRecuriter } from "../../Redux/Recuriter/Action/RecuriterAction";
-import RecuriterCard from "./RecuriterCard";
+import { getJobData } from "../../Redux/Job/Action/JobAction";
+import JobCard from "./JobCard";
 
-const Recuriter = () => {
+const Candidate = () => {
   const dispatch = useDispatch();
-  const { loading, recuriter } = useSelector((store) => store.recuriterReducer);
+  const { loading, job } = useSelector((store) => store.jobReducer);
 
-  // console.log(recuriter);
-
-  // console.log(recuriter.email);
+  // console.log(job);
 
   useEffect(() => {
-    dispatch(getRecuriter);
+    dispatch(getJobData);
   }, []);
 
   if (loading === "true") {
@@ -23,10 +21,10 @@ const Recuriter = () => {
     );
   }
   return (
-    <div className="container">
-      <RecuriterCard data={recuriter} />
+    <div className="container mt-8 grid gap-6 sm:grid-cols-1 lg:grid-cols-2 ">
+      {job.length > 0 && job.map((el) => <JobCard key={el._id} {...el} />)}
     </div>
   );
 };
 
-export default Recuriter;
+export default Candidate;

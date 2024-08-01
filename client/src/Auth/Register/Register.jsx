@@ -3,11 +3,17 @@ import React, { useState } from "react";
 // Importing Link from react-router-dom for navigation
 import { Link } from "react-router-dom";
 // Importing action creator for adding a user
-import { addUser } from "../../Redux/Auth/Action/AuthAction";
+import {
+  REQUEST_LOADING,
+  REQUEST_PENDING,
+  REQUEST_SUCCESS,
+} from "../../Redux/Auth/Action/AuthAction";
 // Importing useDispatch and useSelector from react-redux for state management
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 // Importing Toast component for alert messages
 import { Toast } from "../../Component/Alert";
+
+import axios from "axios";
 
 // Defining the initial state for the form fields
 let initialState = {
@@ -23,11 +29,6 @@ function Register() {
   const [showPassword, setShowPassword] = useState(false);
   // State to manage the role selection
   const [formState, setFormState] = useState(initialState);
-
-  // Extracting error and message from the store using useSelector
-  const { error, message } = useSelector((store) => {
-    return store.authReducer;
-  });
 
   // Using useDispatch to dispatch actions
   const dispatch = useDispatch();
@@ -71,25 +72,32 @@ function Register() {
       });
       return;
     }
-    // Dispatching the addUser action with formState
-    dispatch(addUser(formState));
-    // Handling success and error messages
-    if (message) {
-      Toast.fire({
-        icon: "success",
-        title: message,
+
+    // Dispatch action to indicate request is loading
+    dispatch({ type: REQUEST_LOADING });
+    // Make POST request to register user
+    axios
+      .post(`${process.env.REACT_APP_BASE_API_URL}auth/register`, formState)
+      .then((res) => {
+        // Log the response data
+        console.log(res.data);
+        // Dispatch action to indicate request was successful
+        dispatch({ type: REQUEST_SUCCESS, payload: res.data.message });
+        Toast.fire({
+          icon: "success",
+          title: res.data.message,
+        });
+      })
+      .catch((err) => {
+        // console.log(err.response.data.message);
+        // Dispatch action to indicate request is pending
+        dispatch({ type: REQUEST_PENDING, payload: err.response.data.message });
+        Toast.fire({
+          icon: "error",
+          title: err.response.data.message,
+        });
       });
-      setFormState(initialState);
-      return;
-    }
-    if (error) {
-      Toast.fire({
-        icon: "error",
-        title: error,
-      });
-      setFormState(initialState);
-      return;
-    }
+      setFormState(initialState)
   };
 
   return (

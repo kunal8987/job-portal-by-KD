@@ -23,12 +23,12 @@ export const getCandidateData = (dispatch) => {
     })
     .then((res) => {
       // Log the response data
-      console.log(res.data);
+      // console.log(res.data);
       // Dispatch action to indicate request was successful
       dispatch({ type: GET_REQUEST_SUCCESS, payload: res.data.data });
     })
     .catch((err) => {
-      console.log(err.response.data.message);
+      // console.log(err);
       // Dispatch action to indicate request is pending
       dispatch({ type: REQUEST_PENDING, payload: err.response.data.message });
     });

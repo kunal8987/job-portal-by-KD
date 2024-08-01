@@ -5,33 +5,36 @@ const sessionData = window.sessionStorage;
 // Constants for action types
 export let REQUEST_LOADING = "request_loading";
 export let REQUEST_SUCCESS = "request_success";
+export let GET_REQUEST_SUCCESS = "get_request_success";
 export let REQUEST_PENDING = "request_pending";
 
 let token = JSON.parse(sessionData.getItem("adminToken"));
 
-// ADD JOB FUNCTION
-export const addJob = (payload) => (dispatch) => {
+// GET JOB DATA FUNCTION
+export const getJobData =  (dispatch) => {
   // Dispatch action to indicate request is loading
   dispatch({ type: REQUEST_LOADING });
-  // Make POST request to register job
+  // Make GET request to fetch job data
   axios
-    .post(`${process.env.REACT_APP_BASE_API_URL}job/create`, payload, {
+    .get(`${process.env.REACT_APP_BASE_API_URL}job/get`, {
       headers: {
         Authorization: `${token}`,
       },
     })
     .then((res) => {
       // Log the response data
-      console.log(res.data);
+      // console.log(res.data);
       // Dispatch action to indicate request was successful
-      dispatch({ type: REQUEST_SUCCESS, payload: res.data.message });
+      dispatch({ type: GET_REQUEST_SUCCESS, payload: res.data.data });
     })
     .catch((err) => {
-      console.log(err.response);
+      // Log the error response
+      // console.log(err);
       // Dispatch action to indicate request is pending
       dispatch({ type: REQUEST_PENDING, payload: err.response.data.message });
     });
 };
+
 
 // UPDATE JOB FUNCTION
 export const updateJob = (payload) => (dispatch) => {

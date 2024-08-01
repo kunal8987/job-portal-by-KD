@@ -152,3 +152,27 @@ export const getJob = async (req, res) => {
         sendErrorResponse(res, 500, "Internal Server Error", error.message);
     }
 };
+
+
+// GET SINGLE JOB FUNCTION
+export const getSingleJob = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        // Find the job by ID
+        const job = await Job.findById(id);
+        if (!job) {
+            return sendErrorResponse(res, 404, "Job not found.");
+        }
+
+        // Sending a success response with the found job
+        sendSuccessResponse(res, "Job retrieved successfully.", job);
+    } catch (error) {
+        // Handling errors
+        console.error(
+            "An error occurred while retrieving the job:",
+            error.message
+        );
+        sendErrorResponse(res, 500, "Internal Server Error", error.message);
+    }
+};

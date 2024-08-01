@@ -1,15 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getCandidateData } from "../../Redux/Candidate/Action/CandidateAction";
 import CandidateCard from "./CandidateCard";
 import EducationCard from "./EducationCard";
 import ExperienceCard from "./ExperienceCard";
 
-const Recuriter = () => {
+const Candidate = () => {
   const dispatch = useDispatch();
   const { loading, candidate } = useSelector((store) => store.candidateReducer);
-  let { education, experience,skills } = candidate;
-
+  let { education, experience } = candidate;
 
   useEffect(() => {
     dispatch(getCandidateData);
@@ -28,7 +27,7 @@ const Recuriter = () => {
         Personal Details{" "}
       </h1>
       <CandidateCard data={candidate} />
-   
+
       <h1 className=" font-lora text-xl lg:text-2xl font-bold mt-10 text-red-700 text-center">
         Education Details{" "}
       </h1>
@@ -44,4 +43,4 @@ const Recuriter = () => {
   );
 };
 
-export default Recuriter;
+export default Candidate;
