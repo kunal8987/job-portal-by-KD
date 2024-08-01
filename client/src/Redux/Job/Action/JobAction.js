@@ -6,6 +6,7 @@ const sessionData = window.sessionStorage;
 export let REQUEST_LOADING = "request_loading";
 export let REQUEST_SUCCESS = "request_success";
 export let GET_REQUEST_SUCCESS = "get_request_success";
+export let GET_SINGLE_REQUEST_SUCCESS = "get_single_request_success";
 export let REQUEST_PENDING = "request_pending";
 
 let token = JSON.parse(sessionData.getItem("adminToken"));
@@ -34,6 +35,32 @@ export const getJobData =  (dispatch) => {
       dispatch({ type: REQUEST_PENDING, payload: err.response.data.message });
     });
 };
+
+// GET SINGLE JOB DATA FUNCTION
+export const getSingleJobData = (id) => (dispatch) => {
+  // Dispatch action to indicate request is loading
+  dispatch({ type: REQUEST_LOADING });
+  // Make GET request to fetch single job data
+  axios
+    .get(`${process.env.REACT_APP_BASE_API_URL}job/get-single/${id}`, {
+      headers: {
+        Authorization: `${token}`,
+      },                            
+    })
+    .then((res) => {
+      // Log the response data
+      // console.log(res.data);
+      // Dispatch action to indicate request was successful
+      dispatch({ type: GET_SINGLE_REQUEST_SUCCESS, payload: res.data.data });
+    })
+    .catch((err) => {
+      // Log the error response
+      // console.log(err);
+      // Dispatch action to indicate request is pending
+      dispatch({ type: REQUEST_PENDING, payload: err.response.data.message });
+    });
+};
+
 
 
 // UPDATE JOB FUNCTION

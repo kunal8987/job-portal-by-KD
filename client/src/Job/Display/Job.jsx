@@ -15,7 +15,7 @@ const Candidate = () => {
 
   if (loading === "true") {
     return (
-      <div className=" container flex justify-center items-center h-full ani">
+      <div className=" container flex justify-center my-52 items-center h-full ani">
         <div className="w-20 h-20 border-8 border-dashed rounded-full animate-spin border-red-700"></div>
       </div>
     );

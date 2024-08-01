@@ -7,7 +7,7 @@ const Middle = () => {
         <div className="mx-auto max-w-screen-xl px-4 py-12 sm:px-6 md:py-16 lg:px-8">
           <div className="mx-auto max-w-3xl text-center">
             <h2 className="text-3xl font-bold font-lora text-red-700 sm:text-4xl">
-              Trusted by Our User
+              Trusted by Our Partner
             </h2>
 
             <p className="mt-4 text-gray-500 font-merry sm:text-xl">

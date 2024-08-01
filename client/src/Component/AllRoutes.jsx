@@ -11,6 +11,7 @@ import Create from "../Job/Create/Create";
 import Recuriter from "../Recurter/Display/Recuriter";
 import Candidate from "../Candidate/Display/Candidate";
 import Job from "../Job/Display/Job";
+import SingleJob from "../Job/Single Job/SingleJob";
 const AllRoutes = () => {
   return (
     <>
@@ -25,6 +26,7 @@ const AllRoutes = () => {
         <Route path="/candidate/experience" element={<CreateExperience />} />
         <Route path="/job/create" element={<Create />} />
         <Route path="/job/get/all-jobs" element={<Job />} />
+        <Route path="/get/single-job/:id" element={<SingleJob />} />
         <Route path="/recruiter/get" element={<Recuriter />} />
       </Routes>
     </>
