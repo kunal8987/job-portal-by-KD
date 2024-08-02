@@ -32,7 +32,7 @@ const Customer = () => {
           <h3 className="text-red-700 text-3xl font-lora font-semibold sm:text-4xl">
             See what others saying about us
           </h3>
-          <p className="mt-3 font-merry text-gray-600">
+          <p className="mt-3 font-merry md:text-xl text-gray-600">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc et est
             hendrerit, porta nunc vitae, gravida justo. Nunc fermentum magna
             lorem, euismod volutpat arcu volutpat et.
@@ -46,16 +46,16 @@ const Customer = () => {
                   <div className="flex items-center gap-x-4">
                     <img src={item.avatar} className="w-16 h-16 rounded-full" />
                     <div>
-                      <span className="block text-gray-800 font-merry font-semibold">
+                      <span className="block md:text-lg text-gray-800 font-merry font-semibold">
                         {item.name}
                       </span>
-                      <span className="block text-gray-600 font-merry text-sm mt-0.5">
+                      <span className="block md:text-md text-gray-600 font-merry text-sm mt-0.5">
                         {item.title}
                       </span>
                     </div>
                   </div>
                   <blockquote>
-                    <p className="mt-6 font-merry text-gray-700">{item.quote}</p>
+                    <p className="mt-6 font-merry md:text-lg text-gray-700">{item.quote}</p>
                   </blockquote>
                 </figure>
               </li>

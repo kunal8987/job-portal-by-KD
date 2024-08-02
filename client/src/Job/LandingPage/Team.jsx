@@ -58,7 +58,7 @@ export default function Team() {
           <h3 className=" text-red-700 text-3xl font-lora font-semibold sm:text-4xl">
             Meet our team
           </h3>
-          <p className="text-gray-600 font-merry mt-3">
+          <p className="text-gray-600 md:text-xl font-merry mt-3">
             Lorem Ipsum is simply dummy text of the printing and typesetting
             industry.Lorem Ipsum has been the industry's standard dummy.
           </p>
@@ -78,8 +78,8 @@ export default function Team() {
                   <h4 className="text-gray-700 font-merry font-semibold sm:text-lg">
                     {item.name}
                   </h4>
-                  <p className="text-red-700 font-merry">{item.title}</p>
-                  <p className="text-gray-600 font-merry mt-2">{item.desc}</p>
+                  <p className="text-red-700 md:text-md font-merry">{item.title}</p>
+                  <p className="text-gray-600 md:text-lg font-merry mt-2">{item.desc}</p>
                   <div className="mt-4 flex justify-center gap-4 text-gray-400">
                     <a href={item.twitter}>
                       <svg
