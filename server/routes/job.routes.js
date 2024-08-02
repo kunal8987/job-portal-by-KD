@@ -5,6 +5,7 @@ import {
     createJob,
     deleteJob,
     getJob,
+    getRecuriterJob,
     getSingleJob,
     updateJob,
 } from "../controller/job.controller.js";
@@ -20,6 +21,8 @@ jobRoute.get("/get", authMiddleware, getJob);
 
 // Handling GET request for retrieving a single job by ID
 jobRoute.get("/get-single/:id", authMiddleware, getSingleJob);
+
+jobRoute.get("/get-all/recuriter", authMiddleware, getRecuriterJob);
 
 // Handling PATCH request for updating a job
 jobRoute.patch("/update-job/:id", authMiddleware, updateJob);

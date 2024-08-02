@@ -176,3 +176,25 @@ export const getSingleJob = async (req, res) => {
         sendErrorResponse(res, 500, "Internal Server Error", error.message);
     }
 };
+
+
+// GET RECURITER JOB FUNCTION
+export const getRecuriterJob = async (req, res) => {
+    try {
+        // Find the job by ID
+        const job = await Job.find({authId:req.user.authId});
+        if (!job) {
+            return sendErrorResponse(res, 404, "Job not found.");
+        }
+
+        // Sending a success response with the found job
+        sendSuccessResponse(res, "Job retrieved successfully.", job);
+    } catch (error) {
+        // Handling errors
+        console.error(
+            "An error occurred while retrieving the job:",
+            error.message
+        );
+        sendErrorResponse(res, 500, "Internal Server Error", error.message);
+    }
+};

@@ -9,8 +9,6 @@ const Recuriter = () => {
 
   // console.log(recuriter);
 
-  // console.log(recuriter.email);
-
   useEffect(() => {
     dispatch(getRecuriter);
   }, []);
@@ -24,6 +22,9 @@ const Recuriter = () => {
   }
   return (
     <div className="container">
+      <h1 className=" font-lora text-xl lg:text-2xl font-bold mt-5 text-red-700 text-center">
+        Personal Details{" "}
+      </h1>
       <RecuriterCard data={recuriter} />
     </div>
   );

@@ -118,3 +118,29 @@ export const deleteJob = (payload) => (dispatch) => {
       dispatch({ type: REQUEST_PENDING, payload: err.response.data.message });
     });
 };
+
+
+// GET RECURITER JOB DATA FUNCTION
+export const getRecuriterData =  (dispatch) => {
+  // Dispatch action to indicate request is loading
+  dispatch({ type: REQUEST_LOADING });
+  // Make GET request to fetch job data
+  axios
+    .get(`${process.env.REACT_APP_BASE_API_URL}job/get-all/recuriter`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    })
+    .then((res) => {
+      // Log the response data
+      // console.log(res.data);
+      // Dispatch action to indicate request was successful
+      dispatch({ type: GET_REQUEST_SUCCESS, payload: res.data.data });
+    })
+    .catch((err) => {
+      // Log the error response
+      // console.log(err);
+      // Dispatch action to indicate request is pending
+      dispatch({ type: REQUEST_PENDING, payload: err.response.data.message });
+    });
+};
