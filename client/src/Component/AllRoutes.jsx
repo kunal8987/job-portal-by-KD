@@ -14,6 +14,7 @@ import Job from "../Job/Display/Job";
 import SingleJob from "../Job/Single Job/SingleJob";
 import PostedJob from "../Recurter/Posted job/PostedJob";
 import ErrorPage from "./ErrorPage";
+import PrivateRoutes from "../Context/PrivateRoutes";
 const AllRoutes = () => {
   return (
     <>
@@ -23,29 +24,109 @@ const AllRoutes = () => {
         {/* Catch-all route for 404 errors */}
         <Route path="*" element={<ErrorPage />} />
         {/* Recruiter creation route */}
-        <Route path="/recruiter/create" element={<CreateRecruter />} />
+        <Route
+          path="/recruiter/create"
+          element={
+            <PrivateRoutes>
+              {" "}
+              <CreateRecruter />
+            </PrivateRoutes>
+          }
+        />
         {/* Login route */}
         <Route path="/auth/login" element={<Login />} />
         {/* Registration route */}
         <Route path="/auth/register" element={<Register />} />
         {/* Candidate creation route */}
-        <Route path="/candidate/create" element={<CreateCandidate />} />
+        <Route
+          path="/candidate/create"
+          element={
+            <PrivateRoutes>
+              {" "}
+              <CreateCandidate />
+            </PrivateRoutes>
+          }
+        />
         {/* Candidate profile route */}
-        <Route path="/candidate/get-profile" element={<Candidate />} />
+        <Route
+          path="/candidate/get-profile"
+          element={
+            <PrivateRoutes>
+              {" "}
+              <Candidate />
+            </PrivateRoutes>
+          }
+        />
         {/* Candidate education creation route */}
-        <Route path="/candidate/education" element={<CreateEducation />} />
+        <Route
+          path="/candidate/education"
+          element={
+            <PrivateRoutes>
+              {" "}
+              <CreateEducation />
+            </PrivateRoutes>
+          }
+        />
         {/* Candidate experience creation route */}
-        <Route path="/candidate/experience" element={<CreateExperience />} />
+        <Route
+          path="/candidate/experience"
+          element={
+            <PrivateRoutes>
+              {" "}
+              <CreateExperience />
+            </PrivateRoutes>
+          }
+        />
         {/* Job creation route */}
-        <Route path="/job/create" element={<Create />} />
+        <Route
+          path="/job/create"
+          element={
+            <PrivateRoutes>
+              {" "}
+              <Create />
+            </PrivateRoutes>
+          }
+        />
         {/* All jobs display route */}
-        <Route path="/job/get/all-jobs" element={<Job />} />
+        <Route
+          path="/job/get/all-jobs"
+          element={
+            <PrivateRoutes>
+              {" "}
+              <Job />
+            </PrivateRoutes>
+          }
+        />
         {/* Single job display route */}
-        <Route path="/get/single-job/:id" element={<SingleJob />} />
+        <Route
+          path="/get/single-job/:id"
+          element={
+            <PrivateRoutes>
+              {" "}
+              <SingleJob />
+            </PrivateRoutes>
+          }
+        />
         {/* Recruiter display route */}
-        <Route path="/recruiter/get" element={<Recuriter />} />
+        <Route
+          path="/recruiter/get"
+          element={
+            <PrivateRoutes>
+              {" "}
+              <Recuriter />
+            </PrivateRoutes>
+          }
+        />
         {/* Recruiter's posted jobs display route */}
-        <Route path="/recruiter/get-job" element={<PostedJob />} />
+        <Route
+          path="/recruiter/get-job"
+          element={
+            <PrivateRoutes>
+              {" "}
+              <PostedJob />
+            </PrivateRoutes>
+          }
+        />
       </Routes>
     </>
   );
