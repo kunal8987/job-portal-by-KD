@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../../Redux/Auth/Action/AuthAction";
 import { Toast } from "../../Component/Alert";
@@ -15,6 +15,7 @@ const Login = () => {
   // State to manage the form fields
   const [formState, setFormState] = useState(initialState);
 
+  let navigate = useNavigate()
   // Extracting message and error from the store using useSelector
   const { message, error, success } = useSelector((store) => {
     return store.authReducer;
@@ -61,6 +62,9 @@ const Login = () => {
         icon: "success",
         title: message,
       });
+      navigate('/')
+      setFormState(initialState);
+      window.location.reload()
       return;
     }
     if (success === "false") {
@@ -68,6 +72,7 @@ const Login = () => {
         icon: "error",
         title: error,
       });
+      setFormState(initialState);
       return;
     }
   };
