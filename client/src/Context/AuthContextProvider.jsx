@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { createContext } from "react";
 const sessionData = window.sessionStorage;
 export const AuthContext = createContext();
@@ -6,20 +6,33 @@ const AuthContextProvider = ({ children }) => {
   const [state, setState] = useState({
     isAuth: false,
     token: "",
+    user: "",
   });
 
   let payload = JSON.parse(sessionData.getItem("adminToken"));
-  if (payload) {
-    state.isAuth = true;
-  } else {
-    state.isAuth = false;
-  }
+  let profile = JSON.parse(sessionData.getItem("userRole"));
+
+  useEffect(() => {
+    if (payload) {
+      setState((prevState) => ({
+        ...prevState,
+        isAuth: true,
+        user: profile,
+      }));
+    } else {
+      setState((prevState) => ({
+        ...prevState,
+        isAuth: false,
+      }));
+    }
+  }, [payload, profile]);
 
   const loginUser = (token) => {
     setState({
       ...state,
       isAuth: true,
-      token: payload,
+      token: token,
+      user: profile ? profile : "default",
     });
   };
 

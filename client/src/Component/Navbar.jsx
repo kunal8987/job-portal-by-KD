@@ -1,33 +1,64 @@
-"use client";
-
-import React from "react";
+import React, { useContext } from "react";
 import { Menu, X } from "lucide-react";
-
-const menuItems = [
-  {
-    name: "Home",
-    href: "/",
-  },
-  {
-    name: "Candidate",
-    href: "/candidate/create",
-  },
-  {
-    name: "Education",
-    href: "/candidate/education",
-  },
-  {
-    name: "Experience",
-    href: "/candidate/experience",
-  },
-  {
-    name: "Login",
-    href: "/auth/login",
-  },
-];
+import { AuthContext } from "./../Context/AuthContextProvider";
+import NavButton from "./NavButton";
 
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  const { authState } = useContext(AuthContext);
+
+  let menuItems;
+
+  if (authState.isAuth && authState.user === "candidate") {
+    menuItems = [
+      {
+        name: "Home",
+        href: "/",
+      },
+      {
+        name: "Create Profile",
+        href: "/candidate/create",
+      },
+      {
+        name: "Profile",
+        href: "/candidate/get-profile",
+      },
+      {
+        name: "Jobs",
+        href: "/job/get/all-jobs",
+      },
+    ];
+  } else if (authState.isAuth && authState.user === "recruiter") {
+    menuItems = [
+      {
+        name: "Home",
+        href: "/",
+      },
+      {
+        name: "Create Profile",
+        href: "/recruiter/create",
+      },
+      {
+        name: "Profile",
+        href: "/recruiter/get",
+      },
+      {
+        name: "Create Jobs",
+        href: "/job/create",
+      },
+      {
+        name: "Jobs",
+        href: "/recruiter/get-job",
+      },
+    ];
+  } else {
+    menuItems = [
+      {
+        name: "Home",
+        href: "/",
+      },
+    ];
+  }
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -37,15 +68,19 @@ export function Navbar() {
     <div className=" container py-3 w-full bg-white top-0 sticky z-30 border shadow-md">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-2 sm:px-6 lg:px-8">
         <div className="inline-flex items-center space-x-2">
-          <span className="font-bold font-lora sm:text-xl text-red-700">Job-Portal</span>
+          <span className="font-bold font-lora md:text-2xl text-red-700">
+            Job-Portal
+          </span>
         </div>
         <div className="hidden lg:block">
-          <ul className="inline-flex space-x-8">
+          <ul className="inline-flex  space-x-8">
             {menuItems.map((item) => (
               <li key={item.name}>
                 <a
                   href={item.href}
-                  className="sm:text-lg font-semibold text-gray-800 hover:text-gray-900"
+                  className={`md:text-xl font-medium font-lora underline-offset-4  text-gray-800 hover:text-gray-900 ${
+                    window.location.pathname === item.href ? "underline" : ""
+                  }`}
                 >
                   {item.name}
                 </a>
@@ -54,12 +89,7 @@ export function Navbar() {
           </ul>
         </div>
         <div className="hidden lg:block">
-          <button
-            type="button"
-            className="rounded-md bg-red-700 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
-          >
-            Button text
-          </button>
+          <NavButton />
         </div>
         <div className="lg:hidden">
           <Menu onClick={toggleMenu} className="h-6 w-6 cursor-pointer" />
@@ -98,12 +128,7 @@ export function Navbar() {
                     ))}
                   </nav>
                 </div>
-                <button
-                  type="button"
-                  className="mt-4 w-full rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
-                >
-                  Button text
-                </button>
+                <NavButton />
               </div>
             </div>
           </div>

@@ -2,10 +2,6 @@ import React from "react";
 
 const menuItems = [
   {
-    name: "Home",
-    href: "/",
-  },
-  {
     name: "Candidate",
     href: "/candidate/create",
   },
@@ -16,10 +12,6 @@ const menuItems = [
   {
     name: "Experience",
     href: "/candidate/experience",
-  },
-  {
-    name: "Login",
-    href: "/auth/login",
   },
 ];
 const SmallNav = () => {
