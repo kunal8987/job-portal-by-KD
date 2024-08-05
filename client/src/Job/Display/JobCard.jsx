@@ -1,7 +1,12 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const JobCard = ({ _id, title, description, company, salary }) => {
+  const navigate = useNavigate();
+  const handleClick = () => {
+    navigate("/job/apply-job");
+  };
+
   return (
     <>
       <article className=" shadow-md rounded-xl border-2 border-gray-200 bg-white">
@@ -48,7 +53,10 @@ const JobCard = ({ _id, title, description, company, salary }) => {
 
         <div className="flex justify-end">
           <strong className="-mb-[2px] -me-[2px] inline-flex items-center gap-1 rounded-ee-xl rounded-ss-xl bg-red-700 hover:bg-red-500 px-3 py-1.5 text-white">
-            <button className="text-sm font-lora font-medium md:text-lg">
+            <button
+              onClick={handleClick}
+              className="text-sm font-lora font-medium md:text-lg"
+            >
               Apply
             </button>
           </strong>

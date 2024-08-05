@@ -46,13 +46,18 @@ const PostedJobCard = ({ _id, title, description, company, salary }) => {
           </div>
         </div>
 
-        <div className="flex justify-end">
+        <div className="flex justify-between">
           <strong className="-mb-[2px] -me-[2px] inline-flex items-center gap-1 rounded-ee-xl rounded-ss-xl bg-red-700 hover:bg-red-500 px-3 py-1.5 text-white">
             <Link to={`/get/single-job/${_id}`}>
               <button className="text-sm font-lora font-medium md:text-lg">
                 Edit
               </button>
             </Link>
+          </strong>
+          <strong className="-mb-[2px] -me-[2px] inline-flex items-center gap-1 rounded-ee-xl rounded-ss-xl bg-red-700 hover:bg-red-500 px-3 py-1.5 text-white">
+            <button className="text-sm font-lora font-medium md:text-lg">
+              Delete
+            </button>
           </strong>
         </div>
       </article>

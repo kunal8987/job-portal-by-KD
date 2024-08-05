@@ -16,19 +16,19 @@ export const getRecuriter = (dispatch) => {
   dispatch({ type: REQUEST_LOADING });
   // Make POST request to register user
   axios
-    .get(`${process.env.REACT_APP_BASE_API_URL}recuriter/get`,{
+    .get(`${process.env.REACT_APP_BASE_API_URL}recuriter/get`, {
       headers: {
         Authorization: `${token}`,
       },
     })
     .then((res) => {
       // Log the response data
-      // console.log(res.data);
+      console.log(res.data);
       // Dispatch action to indicate request was successful
       dispatch({ type: GET_REQUEST_SUCCESS, payload: res.data.data });
     })
     .catch((err) => {
-      // console.log(err.response.data.message);
+      console.log(err.response.data.message);
       // Dispatch action to indicate request is pending
       dispatch({ type: REQUEST_PENDING, payload: err.response.data.message });
     });

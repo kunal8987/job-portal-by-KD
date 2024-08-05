@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getSingleJobData } from "../../Redux/Job/Action/JobAction";
 
 const SingleJob = () => {
   let { id } = useParams();
-
+  const navigate = useNavigate();
   const { loading, single } = useSelector((store) => {
     return store.jobReducer;
   });
@@ -18,7 +18,7 @@ const SingleJob = () => {
     dispatch(getSingleJobData(id));
   }, []);
 
-  if (loading === "true" ) {
+  if (loading === "true") {
     return (
       <div className=" container flex justify-center my-52 items-center h-full ani">
         <div className="w-20 h-20 border-8 border-dashed rounded-full animate-spin border-red-700"></div>
@@ -103,7 +103,9 @@ const SingleJob = () => {
         </dl>
         <div className="flex justify-end mt-4">
           <button
-            type="button"
+            onClick={() => {
+              navigate("/job/apply-job");
+            }}
             className="rounded-md bg-red-700 px-4 font-lora py-2 text-md font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
           >
             Apply

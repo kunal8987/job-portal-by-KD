@@ -15,6 +15,7 @@ import SingleJob from "../Job/Single Job/SingleJob";
 import PostedJob from "../Recurter/Posted job/PostedJob";
 import ErrorPage from "./ErrorPage";
 import PrivateRoutes from "../Context/PrivateRoutes";
+import Apply from "../Job/Apply/Apply";
 const AllRoutes = () => {
   return (
     <>
@@ -124,6 +125,15 @@ const AllRoutes = () => {
             <PrivateRoutes>
               {" "}
               <PostedJob />
+            </PrivateRoutes>
+          }
+        />
+        <Route
+          path="/job/apply-job"
+          element={
+            <PrivateRoutes>
+              {" "}
+              <Apply />
             </PrivateRoutes>
           }
         />

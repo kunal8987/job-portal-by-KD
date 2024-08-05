@@ -7,7 +7,7 @@ const Recuriter = () => {
   const dispatch = useDispatch();
   const { loading, recuriter } = useSelector((store) => store.recuriterReducer);
 
-  // console.log(recuriter);
+  console.log(recuriter);
 
   useEffect(() => {
     dispatch(getRecuriter);
